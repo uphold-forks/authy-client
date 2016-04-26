@@ -42,38 +42,38 @@
     "version": "npm run changelog --future-release=$npm_package_version && npm run transpile && git add -A CHANGELOG.md dist"
   },
   "dependencies": {
-    "bluebird": "^3.1.1",
+    "bluebird": "^3.3.5",
     "debugnyan": "0.0.2",
-    "google-libphonenumber": "^1.0.14",
-    "lodash": "^4.8.2",
+    "google-libphonenumber": "^1.0.18",
+    "lodash": "^4.11.1",
     "qs": "^6.1.0",
-    "request": "^2.70.0",
+    "request": "^2.72.0",
     "request-debug": "^0.2.0",
     "standard-http-error": "^2.0.0",
     "urijs": "^1.17.0",
     "url-escape-tag": "^1.0.0",
     "validator": "^5.2.0",
     "validator.js": "^1.2.3",
-    "validator.js-asserts": "^2.0.1"
+    "validator.js-asserts": "^2.3.0"
   },
   "devDependencies": {
-    "babel-cli": "^6.4.0",
-    "babel-eslint": "^6.0.2",
+    "babel-cli": "^6.7.7",
+    "babel-eslint": "^6.0.4",
     "babel-plugin-transform-async-to-module-method": "^6.5.2",
     "babel-preset-es2015-node4": "^2.1.0",
     "babel-preset-stage-1": "^6.3.13",
     "babel-register": "^6.3.13",
-    "eslint": "^2.7.0",
+    "eslint": "^2.8.0",
     "eslint-config-seegno": "^4.0.0",
-    "eslint-plugin-babel": "^3.0.0",
+    "eslint-plugin-babel": "^3.2.0",
     "eslint-plugin-sort-class-members": "^1.0.1",
     "isparta": "^4.0.0",
-    "jscs": "^2.7.0",
+    "jscs": "^2.11.0",
     "jscs-config-seegno": "^2.0.0",
     "mocha": "^2.3.4",
-    "nock": "^7.7.3",
+    "nock": "^8.0.0",
     "pre-commit": "^1.1.2",
-    "should": "^8.0.0"
+    "should": "^8.3.1"
   },
   "pre-commit": [
     "lint"
