@@ -25,7 +25,7 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
  * Module dependencies.
  */
 
-const Assert = _validator2.Assert.extend((0, _lodash.pick)(asserts, ['Uri', 'EqualKeys']));
+const is = _validator2.Assert.extend((0, _lodash.pick)(asserts, ['Uri', 'EqualKeys']));
 
 /**
  * Resolution choices.
@@ -44,9 +44,9 @@ function logoAssert() {
   // Validation algorithm.
   this.validate = value => {
     try {
-      new Assert().EqualKeys(['res', 'url']).validate(value);
-      new Assert().Choice(choices).validate(value.res);
-      new Assert().Uri().validate(value.url);
+      is.equalKeys(['res', 'url']).validate(value);
+      is.choice(choices).validate(value.res);
+      is.uri().validate(value.url);
     } catch (e) {
       throw new _validator2.Violation(e.assert, value, e.violation);
     }

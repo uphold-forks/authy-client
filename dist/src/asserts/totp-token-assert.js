@@ -46,7 +46,7 @@ function totpTokenAssert() {
     }
 
     try {
-      new _validator.Assert().Length(this.boundaries).validate(value);
+      _validator.Assert.ofLength(this.boundaries).validate(value);
     } catch (e) {
       throw new _validator.Violation(this, value, e.violation);
     }

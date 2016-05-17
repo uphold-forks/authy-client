@@ -90,9 +90,9 @@ class Client {
     let timeout = _ref2$timeout === undefined ? 5000 : _ref2$timeout;
 
     (0, _validator.validate)({ host: host, key: key, timeout: timeout }, {
-      host: [new _validator.Assert().IsString(), new _validator.Assert().Choice(['https://api.authy.com', 'https://sandbox-api.authy.com'])],
-      key: [new _validator.Assert().Required(), new _validator.Assert().NotBlank()],
-      timeout: [new _validator.Assert().Integer(), new _validator.Assert().GreaterThanOrEqual(0)]
+      host: [_validator.Assert.string(), _validator.Assert.choice(['https://api.authy.com', 'https://sandbox-api.authy.com'])],
+      key: [_validator.Assert.required(), _validator.Assert.notBlank()],
+      timeout: [_validator.Assert.integer(), _validator.Assert.greaterThanOrEqual(0)]
     });
 
     this.key = key;
@@ -151,14 +151,14 @@ class Client {
 
 
       (0, _validator.validate)({ authyId: authyId, details: details, logos: logos, message: message, ttl: ttl }, {
-        authyId: [new _validator.Assert().Required(), new _validator.Assert().AuthyId()],
+        authyId: [_validator.Assert.required(), _validator.Assert.authyId()],
         details: {
-          hidden: new _validator.Assert().PlainObject(),
-          visible: new _validator.Assert().PlainObject()
+          hidden: _validator.Assert.plainObject(),
+          visible: _validator.Assert.plainObject()
         },
-        logos: [new _validator.Assert().Collection(new _validator.Assert().Logo()), new _validator.Assert().Length({ min: 1 })],
-        message: [new _validator.Assert().Required(), new _validator.Assert().IsString(), new _validator.Assert().Length({ max: 144 })],
-        ttl: new _validator.Assert().Integer()
+        logos: [_validator.Assert.collection(_validator.Assert.Logo()), _validator.Assert.ofLength({ min: 1 })],
+        message: [_validator.Assert.required(), _validator.Assert.string(), _validator.Assert.ofLength({ max: 144 })],
+        ttl: _validator.Assert.integer()
       });
 
       return this.onetouch.postAsync({
@@ -174,7 +174,7 @@ class Client {
       }).bind(this).then(_responseParser2.default).tap(response => {
         (0, _validator.assert)(response, {
           approval_request: {
-            uuid: [new _validator.Assert().Required(), new _validator.Assert().IsString()]
+            uuid: [_validator.Assert.required(), _validator.Assert.string()]
           }
         });
       }).asCallback(callback);
@@ -209,8 +209,8 @@ class Client {
       log.debug({ authyId: authyId }, `Deleting user ${ authyId }`);
 
       (0, _validator.validate)({ authyId: authyId, ip: ip }, {
-        authyId: [new _validator.Assert().Required(), new _validator.Assert().AuthyId()],
-        ip: new _validator.Assert().Ip()
+        authyId: [_validator.Assert.required(), _validator.Assert.authyId()],
+        ip: _validator.Assert.Ip()
       });
 
       return this.rpc.postAsync({
@@ -220,7 +220,7 @@ class Client {
         uri: _urlEscapeTag2.default`users/${ authyId }/delete`
       }).bind(this).then(_responseParser2.default).tap(response => {
         (0, _validator.assert)(response, {
-          message: [new _validator.Assert().Required(), new _validator.Assert().EqualTo('User was added to remove.')]
+          message: [_validator.Assert.required(), _validator.Assert.equalTo('User was added to remove.')]
         });
       }).asCallback(callback);
     });
@@ -250,7 +250,7 @@ class Client {
 
       log.debug('Retrieving application details');
 
-      (0, _validator.validate)({ ip: ip }, { ip: new _validator.Assert().Ip() });
+      (0, _validator.validate)({ ip: ip }, { ip: _validator.Assert.Ip() });
 
       return this.rpc.getAsync({
         qs: _lodash2.default.pickBy({
@@ -260,12 +260,12 @@ class Client {
       }).bind(this).then(_responseParser2.default).tap(response => {
         (0, _validator.assert)(response, {
           app: {
-            app_id: [new _validator.Assert().Required(), new _validator.Assert().Integer()],
-            name: [new _validator.Assert().Required(), new _validator.Assert().IsString()],
-            plan: [new _validator.Assert().Required(), new _validator.Assert().IsString()],
-            sms_enabled: [new _validator.Assert().Required(), new _validator.Assert().Boolean()]
+            app_id: [_validator.Assert.required(), _validator.Assert.integer()],
+            name: [_validator.Assert.required(), _validator.Assert.string()],
+            plan: [_validator.Assert.required(), _validator.Assert.string()],
+            sms_enabled: [_validator.Assert.required(), _validator.Assert.boolean()]
           },
-          message: [new _validator.Assert().Required(), new _validator.Assert().EqualTo('Application information.')]
+          message: [_validator.Assert.required(), _validator.Assert.equalTo('Application information.')]
         });
       }).asCallback(callback);
     });
@@ -294,7 +294,7 @@ class Client {
 
 
       (0, _validator.validate)({ id: id }, {
-        id: [new _validator.Assert().Required(), new _validator.Assert().IsString()]
+        id: [_validator.Assert.required(), _validator.Assert.string()]
       });
 
       return this.onetouch.getAsync({
@@ -305,19 +305,19 @@ class Client {
       }).bind(this).then(_responseParser2.default).tap(response => {
         (0, _validator.assert)(response, {
           approval_request: {
-            _app_name: [new _validator.Assert().Required(), new _validator.Assert().IsString()],
-            _app_serial_id: [new _validator.Assert().Required(), new _validator.Assert().IsString()],
-            _authy_id: [new _validator.Assert().Required(), new _validator.Assert().AuthyId()],
-            _id: [new _validator.Assert().Required(), new _validator.Assert().IsString()],
-            _user_email: [new _validator.Assert().Required(), new _validator.Assert().Email()],
-            app_id: [new _validator.Assert().Required(), new _validator.Assert().IsString()],
-            created_at: [new _validator.Assert().Required(), new _validator.Assert().Date()],
-            notified: [new _validator.Assert().Required(), new _validator.Assert().Boolean()],
-            processed_at: new _validator.Assert().Callback(value => new _validator.Assert().Null().check(value) === true || new _validator.Assert().Date().check(value) === true),
-            status: [new _validator.Assert().Required(), new _validator.Assert().Choice(['approved', 'denied', 'pending'])],
-            updated_at: [new _validator.Assert().Required(), new _validator.Assert().Date()],
-            user_id: [new _validator.Assert().Required(), new _validator.Assert().IsString()],
-            uuid: [new _validator.Assert().Required(), new _validator.Assert().IsString()]
+            _app_name: [_validator.Assert.required(), _validator.Assert.string()],
+            _app_serial_id: [_validator.Assert.required(), _validator.Assert.string()],
+            _authy_id: [_validator.Assert.required(), _validator.Assert.authyId()],
+            _id: [_validator.Assert.required(), _validator.Assert.string()],
+            _user_email: [_validator.Assert.required(), _validator.Assert.email()],
+            app_id: [_validator.Assert.required(), _validator.Assert.string()],
+            created_at: [_validator.Assert.required(), _validator.Assert.date()],
+            notified: [_validator.Assert.required(), _validator.Assert.boolean()],
+            processed_at: _validator.Assert.callback(value => _validator.Assert.null().check(value) === true || _validator.Assert.date().check(value) === true),
+            status: [_validator.Assert.required(), _validator.Assert.choice(['approved', 'denied', 'pending'])],
+            updated_at: [_validator.Assert.required(), _validator.Assert.date()],
+            user_id: [_validator.Assert.required(), _validator.Assert.string()],
+            uuid: [_validator.Assert.required(), _validator.Assert.string()]
           }
         });
       }).asCallback(callback);
@@ -348,7 +348,7 @@ class Client {
 
       log.debug('Retrieving application statistics');
 
-      (0, _validator.validate)({ ip: ip }, { ip: new _validator.Assert().Ip() });
+      (0, _validator.validate)({ ip: ip }, { ip: _validator.Assert.Ip() });
 
       return this.rpc.getAsync({
         qs: _lodash2.default.pickBy({
@@ -357,11 +357,11 @@ class Client {
         uri: _urlEscapeTag2.default`app/stats`
       }).bind(this).then(_responseParser2.default).tap(response => {
         (0, _validator.assert)(response, {
-          app_id: [new _validator.Assert().Required(), new _validator.Assert().Integer()],
-          count: [new _validator.Assert().Required(), new _validator.Assert().Integer()],
-          message: [new _validator.Assert().Required(), new _validator.Assert().EqualTo('Monthly statistics.')],
-          stats: [new _validator.Assert().Required(), new _validator.Assert().Collection(new _validator.Assert().EqualKeys(['api_calls_count', 'auths_count', 'calls_count', 'month', 'sms_count', 'users_count', 'year']))],
-          total_users: [new _validator.Assert().Required(), new _validator.Assert().Integer()]
+          app_id: [_validator.Assert.required(), _validator.Assert.integer()],
+          count: [_validator.Assert.required(), _validator.Assert.integer()],
+          message: [_validator.Assert.required(), _validator.Assert.equalTo('Monthly statistics.')],
+          stats: [_validator.Assert.required(), _validator.Assert.collection(_validator.Assert.equalKeys(['api_calls_count', 'auths_count', 'calls_count', 'month', 'sms_count', 'users_count', 'year']))],
+          total_users: [_validator.Assert.required(), _validator.Assert.integer()]
         });
       }).asCallback(callback);
     });
@@ -390,9 +390,9 @@ class Client {
 
 
       (0, _validator.validate)({ countryCode: countryOrCallingCode, ip: ip, phone: phone }, {
-        countryCode: [new _validator.Assert().Required(), new _validator.Assert().CountryOrCallingCode()],
-        ip: new _validator.Assert().Ip(),
-        phone: [new _validator.Assert().Required(), new _validator.Assert().Phone(countryOrCallingCode)]
+        countryCode: [_validator.Assert.required(), _validator.Assert.countryOrCallingCode()],
+        ip: _validator.Assert.Ip(),
+        phone: [_validator.Assert.required(), _validator.Assert.phone(countryOrCallingCode)]
       });
 
       const parsed = (0, _phoneParser2.default)({ countryOrCallingCode: countryOrCallingCode, phone: phone });
@@ -406,10 +406,10 @@ class Client {
         uri: _urlEscapeTag2.default`phones/info`
       }).bind(this).then(_responseParser2.default).tap(response => {
         (0, _validator.assert)(response, {
-          message: [new _validator.Assert().Required(), new _validator.Assert().Regexp('Phone number information as of \\d+-\\d+-\\d+ \\d+:\\d+:\\d+ UTC')],
-          ported: [new _validator.Assert().Required(), new _validator.Assert().Boolean()],
-          provider: [new _validator.Assert().Required(), new _validator.Assert().IsString()],
-          type: [new _validator.Assert().Required(), new _validator.Assert().IsString()]
+          message: [_validator.Assert.required(), _validator.Assert.regexp('Phone number information as of \\d+-\\d+-\\d+ \\d+:\\d+:\\d+ UTC')],
+          ported: [_validator.Assert.required(), _validator.Assert.boolean()],
+          provider: [_validator.Assert.required(), _validator.Assert.string()],
+          type: [_validator.Assert.required(), _validator.Assert.string()]
         });
       }).asCallback(callback);
     });
@@ -443,8 +443,8 @@ class Client {
       log.debug({ authyId: authyId }, `Retrieving user ${ authyId } status`);
 
       (0, _validator.validate)({ authyId: authyId, ip: ip }, {
-        authyId: [new _validator.Assert().Required(), new _validator.Assert().AuthyId()],
-        ip: new _validator.Assert().Ip()
+        authyId: [_validator.Assert.required(), _validator.Assert.authyId()],
+        ip: _validator.Assert.Ip()
       });
 
       return this.rpc.getAsync({
@@ -454,15 +454,15 @@ class Client {
         uri: _urlEscapeTag2.default`users/${ authyId }/status`
       }).bind(this).then(_responseParser2.default).tap(response => {
         (0, _validator.assert)(response, {
-          message: [new _validator.Assert().Required(), new _validator.Assert().EqualTo('User status.')],
+          message: [_validator.Assert.required(), _validator.Assert.equalTo('User status.')],
           status: {
-            authy_id: [new _validator.Assert().Required(), new _validator.Assert().AuthyId()],
-            confirmed: [new _validator.Assert().Required(), new _validator.Assert().Boolean()],
-            country_code: [new _validator.Assert().Required(), new _validator.Assert().CountryOrCallingCode()],
-            devices: new _validator.Assert().Required(),
-            has_hard_token: [new _validator.Assert().Required(), new _validator.Assert().Boolean()],
-            phone_number: [new _validator.Assert().Required(), new _validator.Assert().IsString()],
-            registered: [new _validator.Assert().Required(), new _validator.Assert().Boolean()]
+            authy_id: [_validator.Assert.required(), _validator.Assert.authyId()],
+            confirmed: [_validator.Assert.required(), _validator.Assert.boolean()],
+            country_code: [_validator.Assert.required(), _validator.Assert.countryOrCallingCode()],
+            devices: _validator.Assert.required(),
+            has_hard_token: [_validator.Assert.required(), _validator.Assert.boolean()],
+            phone_number: [_validator.Assert.required(), _validator.Assert.string()],
+            registered: [_validator.Assert.required(), _validator.Assert.boolean()]
           }
         });
       }).asCallback(callback);
@@ -499,10 +499,10 @@ class Client {
       log.debug(`Registering activity for user ${ authyId }`);
 
       (0, _validator.validate)({ authyId: authyId, data: data, ip: ip, type: type }, {
-        authyId: [new _validator.Assert().Required(), new _validator.Assert().AuthyId()],
-        data: [new _validator.Assert().Required(), new _validator.Assert().PlainObject()],
-        ip: [new _validator.Assert().Required(), new _validator.Assert().Ip()],
-        type: [new _validator.Assert().Required(), new _validator.Assert().Activity()]
+        authyId: [_validator.Assert.required(), _validator.Assert.authyId()],
+        data: [_validator.Assert.required(), _validator.Assert.plainObject()],
+        ip: [_validator.Assert.required(), _validator.Assert.Ip()],
+        type: [_validator.Assert.required(), _validator.Assert.Activity()]
       });
 
       return this.rpc.postAsync({
@@ -514,7 +514,7 @@ class Client {
         uri: _urlEscapeTag2.default`users/${ authyId }/register_activity`
       }).bind(this).then(_responseParser2.default).tap(response => {
         (0, _validator.assert)(response, {
-          message: [new _validator.Assert().Required(), new _validator.Assert().EqualTo('Activity was created.')]
+          message: [_validator.Assert.required(), _validator.Assert.equalTo('Activity was created.')]
         });
       }).asCallback(callback);
     });
@@ -553,10 +553,10 @@ class Client {
       log.debug(`Requesting call for user ${ authyId }`);
 
       (0, _validator.validate)({ action: action, authyId: authyId, force: force, message: message }, {
-        action: [new _validator.Assert().IsString(), new _validator.Assert().Length({ max: 255, min: 1 })],
-        authyId: [new _validator.Assert().Required(), new _validator.Assert().AuthyId()],
-        force: new _validator.Assert().Boolean(),
-        message: [new _validator.Assert().IsString(), new _validator.Assert().Length({ max: 255, min: 1 })]
+        action: [_validator.Assert.string(), _validator.Assert.ofLength({ max: 255, min: 1 })],
+        authyId: [_validator.Assert.required(), _validator.Assert.authyId()],
+        force: _validator.Assert.boolean(),
+        message: [_validator.Assert.string(), _validator.Assert.ofLength({ max: 255, min: 1 })]
       });
 
       return this.rpc.getAsync({
@@ -568,10 +568,10 @@ class Client {
         uri: _urlEscapeTag2.default`call/${ authyId }`
       }).bind(this).then(_responseParser2.default).tap(response => {
         (0, _validator.assert)(response, {
-          cellphone: [new _validator.Assert().Required(), new _validator.Assert().IsString()],
-          device: new _validator.Assert().IsString(),
-          ignored: new _validator.Assert().Boolean(),
-          message: [new _validator.Assert().Required(), new _validator.Assert().IsString()]
+          cellphone: [_validator.Assert.required(), _validator.Assert.string()],
+          device: _validator.Assert.string(),
+          ignored: _validator.Assert.boolean(),
+          message: [_validator.Assert.required(), _validator.Assert.string()]
         });
       }).asCallback(callback);
     });
@@ -610,10 +610,10 @@ class Client {
       log.debug(`Requesting sms for user ${ authyId }`);
 
       (0, _validator.validate)({ action: action, authyId: authyId, force: force, message: message }, {
-        action: [new _validator.Assert().IsString(), new _validator.Assert().Length({ max: 255, min: 1 })],
-        authyId: [new _validator.Assert().Required(), new _validator.Assert().AuthyId()],
-        force: new _validator.Assert().Boolean(),
-        message: [new _validator.Assert().IsString(), new _validator.Assert().Length({ max: 255, min: 1 })]
+        action: [_validator.Assert.string(), _validator.Assert.ofLength({ max: 255, min: 1 })],
+        authyId: [_validator.Assert.required(), _validator.Assert.authyId()],
+        force: _validator.Assert.boolean(),
+        message: [_validator.Assert.string(), _validator.Assert.ofLength({ max: 255, min: 1 })]
       });
 
       return this.rpc.getAsync({
@@ -625,10 +625,10 @@ class Client {
         uri: _urlEscapeTag2.default`sms/${ authyId }`
       }).bind(this).then(_responseParser2.default).tap(response => {
         (0, _validator.assert)(response, {
-          cellphone: [new _validator.Assert().Required(), new _validator.Assert().IsString()],
-          device: new _validator.Assert().IsString(),
-          ignored: new _validator.Assert().Boolean(),
-          message: [new _validator.Assert().Required(), new _validator.Assert().IsString()]
+          cellphone: [_validator.Assert.required(), _validator.Assert.string()],
+          device: _validator.Assert.string(),
+          ignored: _validator.Assert.boolean(),
+          message: [_validator.Assert.required(), _validator.Assert.string()]
         });
       }).asCallback(callback);
     });
@@ -662,9 +662,9 @@ class Client {
       log.debug(`Registering user with email ${ email } and phone ${ phone } (${ countryOrCallingCode })`);
 
       (0, _validator.validate)({ countryCode: countryOrCallingCode, email: email, phone: phone }, {
-        countryCode: [new _validator.Assert().Required(), new _validator.Assert().CountryOrCallingCode()],
-        email: [new _validator.Assert().Required(), new _validator.Assert().Email()],
-        phone: [new _validator.Assert().Required(), new _validator.Assert().Phone(countryOrCallingCode)]
+        countryCode: [_validator.Assert.required(), _validator.Assert.countryOrCallingCode()],
+        email: [_validator.Assert.required(), _validator.Assert.email()],
+        phone: [_validator.Assert.required(), _validator.Assert.phone(countryOrCallingCode)]
       });
 
       const parsed = (0, _phoneParser2.default)({ countryOrCallingCode: countryOrCallingCode, phone: phone });
@@ -680,9 +680,9 @@ class Client {
         uri: _urlEscapeTag2.default`users/new`
       }).bind(this).then(_responseParser2.default).tap(response => {
         (0, _validator.assert)(response, {
-          message: [new _validator.Assert().Required(), new _validator.Assert().EqualTo('User created successfully.')],
+          message: [_validator.Assert.required(), _validator.Assert.equalTo('User created successfully.')],
           user: {
-            id: [new _validator.Assert().Required(), new _validator.Assert().AuthyId()]
+            id: [_validator.Assert.required(), _validator.Assert.authyId()]
           }
         });
       }).asCallback(callback);
@@ -719,9 +719,9 @@ class Client {
       log.debug(`Verifying token ${ token } for user ${ authyId }`);
 
       (0, _validator.validate)({ authyId: authyId, force: force, token: token }, {
-        authyId: [new _validator.Assert().Required(), new _validator.Assert().AuthyId()],
-        force: new _validator.Assert().Boolean(),
-        token: [new _validator.Assert().Required(), new _validator.Assert().TotpToken()]
+        authyId: [_validator.Assert.required(), _validator.Assert.authyId()],
+        force: _validator.Assert.boolean(),
+        token: [_validator.Assert.required(), _validator.Assert.totpToken()]
       });
 
       return this.rpc.getAsync({
@@ -731,8 +731,8 @@ class Client {
         uri: _urlEscapeTag2.default`verify/${ token }/${ authyId }`
       }).bind(this).then(_responseParser2.default).tap(response => {
         (0, _validator.assert)(response, {
-          message: [new _validator.Assert().Required(), new _validator.Assert().EqualTo('Token is valid.')],
-          token: [new _validator.Assert().Required(), new _validator.Assert().EqualTo('is valid')]
+          message: [_validator.Assert.required(), _validator.Assert.equalTo('Token is valid.')],
+          token: [_validator.Assert.required(), _validator.Assert.equalTo('is valid')]
         });
       }).asCallback(callback);
     });
@@ -766,10 +766,10 @@ class Client {
 
 
       (0, _validator.validate)({ countryCode: countryOrCallingCode, phone: phone, via: via }, {
-        countryCode: [new _validator.Assert().Required(), new _validator.Assert().CountryOrCallingCode()],
-        locale: new _validator.Assert().Locale(),
-        phone: [new _validator.Assert().Required(), new _validator.Assert().Phone(countryOrCallingCode)],
-        via: [new _validator.Assert().Required(), new _validator.Assert().VerificationVia()]
+        countryCode: [_validator.Assert.required(), _validator.Assert.countryOrCallingCode()],
+        locale: _validator.Assert.locale(),
+        phone: [_validator.Assert.required(), _validator.Assert.phone(countryOrCallingCode)],
+        via: [_validator.Assert.required(), _validator.Assert.verificationVia()]
       });
 
       const parsed = (0, _phoneParser2.default)({ countryOrCallingCode: countryOrCallingCode, phone: phone });
@@ -784,10 +784,10 @@ class Client {
         uri: _urlEscapeTag2.default`phones/verification/start`
       }).bind(this).then(_responseParser2.default).tap(response => {
         (0, _validator.assert)(response, {
-          carrier: [new _validator.Assert().Required(), new _validator.Assert().IsString()],
-          is_cellphone: [new _validator.Assert().Required(), new _validator.Assert().Boolean()],
-          is_ported: [new _validator.Assert().Required(), new _validator.Assert().Boolean()],
-          message: [new _validator.Assert().Required(), new _validator.Assert().IsString()]
+          carrier: [_validator.Assert.required(), _validator.Assert.string()],
+          is_cellphone: [_validator.Assert.required(), _validator.Assert.boolean()],
+          is_ported: [_validator.Assert.required(), _validator.Assert.boolean()],
+          message: [_validator.Assert.required(), _validator.Assert.string()]
         });
       }).asCallback(callback);
     });
@@ -814,23 +814,23 @@ class Client {
     return _bluebird2.default.try(() => {
       (0, _validator.validate)(request, {
         body: {
-          approval_request: [new _validator.Assert().Required(), new _validator.Assert().Callback(value => {
-            return new _validator.Assert().IsString().check(value) === true || new _validator.Assert().PlainObject().check(value) === true;
+          approval_request: [_validator.Assert.required(), _validator.Assert.callback(value => {
+            return _validator.Assert.string().check(value) === true || _validator.Assert.plainObject().check(value) === true;
           })],
-          authy_id: [new _validator.Assert().Required(), new _validator.Assert().AuthyId()],
-          callback_action: [new _validator.Assert().Required(), new _validator.Assert().Choice(['approval_request_status'])],
-          device_uuid: [new _validator.Assert().Required(), new _validator.Assert().IsString()],
-          signature: [new _validator.Assert().Required(), new _validator.Assert().IsString()],
-          status: [new _validator.Assert().Required(), new _validator.Assert().Choice(['approved', 'denied'])],
-          uuid: [new _validator.Assert().Required(), new _validator.Assert().IsString()]
+          authy_id: [_validator.Assert.required(), _validator.Assert.authyId()],
+          callback_action: [_validator.Assert.required(), _validator.Assert.choice(['approval_request_status'])],
+          device_uuid: [_validator.Assert.required(), _validator.Assert.string()],
+          signature: [_validator.Assert.required(), _validator.Assert.string()],
+          status: [_validator.Assert.required(), _validator.Assert.choice(['approved', 'denied'])],
+          uuid: [_validator.Assert.required(), _validator.Assert.string()]
         },
         headers: {
-          'x-authy-signature': [new _validator.Assert().IsString(), new _validator.Assert().Signature({ key: this.key, request: request })],
-          'x-authy-signature-nonce': [new _validator.Assert().Integer()]
+          'x-authy-signature': [_validator.Assert.string(), _validator.Assert.Signature({ key: this.key, request: request })],
+          'x-authy-signature-nonce': [_validator.Assert.integer()]
         },
-        method: [new _validator.Assert().Required(), new _validator.Assert().Choice(['GET', 'POST'])],
-        protocol: [new _validator.Assert().Required(), new _validator.Assert().Choice(['http', 'https'])],
-        url: [new _validator.Assert().Required(), new _validator.Assert().IsString()]
+        method: [_validator.Assert.required(), _validator.Assert.choice(['GET', 'POST'])],
+        protocol: [_validator.Assert.required(), _validator.Assert.choice(['http', 'https'])],
+        url: [_validator.Assert.required(), _validator.Assert.string()]
       });
 
       return _bluebird2.default.resolve(request).asCallback(callback);
@@ -862,9 +862,9 @@ class Client {
 
 
       (0, _validator.validate)({ countryCode: countryOrCallingCode, phone: phone, token: token }, {
-        countryCode: [new _validator.Assert().Required(), new _validator.Assert().CountryOrCallingCode()],
-        phone: [new _validator.Assert().Required(), new _validator.Assert().Phone(countryOrCallingCode)],
-        token: [new _validator.Assert().Required(), new _validator.Assert().Integer()]
+        countryCode: [_validator.Assert.required(), _validator.Assert.countryOrCallingCode()],
+        phone: [_validator.Assert.required(), _validator.Assert.phone(countryOrCallingCode)],
+        token: [_validator.Assert.required(), _validator.Assert.integer()]
       });
 
       const parsed = (0, _phoneParser2.default)({ countryOrCallingCode: countryOrCallingCode, phone: phone });
@@ -878,7 +878,7 @@ class Client {
         uri: _urlEscapeTag2.default`phones/verification/check`
       }).bind(this).then(_responseParser2.default).tap(response => {
         (0, _validator.assert)(response, {
-          message: [new _validator.Assert().Required(), new _validator.Assert().EqualTo('Verification code is correct.')]
+          message: [_validator.Assert.required(), _validator.Assert.equalTo('Verification code is correct.')]
         });
       }).asCallback(callback);
     });

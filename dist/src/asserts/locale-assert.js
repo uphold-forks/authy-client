@@ -36,7 +36,7 @@ function localeAssert() {
     }
 
     try {
-      new _validator.Assert().Choice(choices).validate(value);
+      _validator.Assert.choice(choices).validate(value);
     } catch (e) {
       throw new _validator.Violation(this, value, e.violation);
     }
