@@ -3,7 +3,7 @@
  * Module dependencies.
  */
 
-import { Assert, Violation } from 'validator.js';
+import { Violation, Assert as is } from 'validator.js';
 import { isNumber, isString } from 'lodash';
 
 /**
@@ -39,7 +39,7 @@ export default function totpTokenAssert() {
     }
 
     try {
-      new Assert().Length(this.boundaries).validate(value);
+      is.ofLength(this.boundaries).validate(value);
     } catch (e) {
       throw new Violation(this, value, e.violation);
     }

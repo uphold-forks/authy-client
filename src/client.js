@@ -11,7 +11,7 @@ import manifest from '../package';
 import parsePhone from './parsers/phone-parser';
 import parseResponse from './parsers/response-parser';
 import request from 'request';
-import { Assert, assert, validate } from './validator';
+import { assert, Assert as is, validate } from './validator';
 
 /**
  * Instances.
@@ -43,9 +43,9 @@ function source(...args) {
 export default class Client {
   constructor({ key } = {}, { host = 'https://api.authy.com', timeout = 5000 } = {}) {
     validate({ host, key, timeout }, {
-      host: [new Assert().IsString(), new Assert().Choice(['https://api.authy.com', 'https://sandbox-api.authy.com'])],
-      key: [new Assert().Required(), new Assert().NotBlank()],
-      timeout: [new Assert().Integer(), new Assert().GreaterThanOrEqual(0)]
+      host: [is.string(), is.choice(['https://api.authy.com', 'https://sandbox-api.authy.com'])],
+      key: [is.required(), is.notBlank()],
+      timeout: [is.integer(), is.greaterThanOrEqual(0)]
     });
 
     this.key = key;
@@ -83,14 +83,14 @@ export default class Client {
       const [[{ authyId, details = {}, logos, message } = {}, { ttl } = {}], callback] = source(...args);
 
       validate({ authyId, details, logos, message, ttl }, {
-        authyId: [new Assert().Required(), new Assert().AuthyId()],
+        authyId: [is.required(), is.authyId()],
         details: {
-          hidden: new Assert().PlainObject(),
-          visible: new Assert().PlainObject()
+          hidden: is.plainObject(),
+          visible: is.plainObject()
         },
-        logos: [new Assert().Collection(new Assert().Logo()), new Assert().Length({ min: 1 })],
-        message: [new Assert().Required(), new Assert().IsString(), new Assert().Length({ max: 144 })],
-        ttl: new Assert().Integer()
+        logos: [is.collection(is.Logo()), is.ofLength({ min: 1 })],
+        message: [is.required(), is.string(), is.ofLength({ max: 144 })],
+        ttl: is.integer()
       });
 
       return this.onetouch.postAsync({
@@ -109,7 +109,7 @@ export default class Client {
       .tap(response => {
         assert(response, {
           approval_request: {
-            uuid: [new Assert().Required(), new Assert().IsString()]
+            uuid: [is.required(), is.string()]
           }
         });
       })
@@ -128,8 +128,8 @@ export default class Client {
       log.debug({ authyId }, `Deleting user ${authyId}`);
 
       validate({ authyId, ip }, {
-        authyId: [new Assert().Required(), new Assert().AuthyId()],
-        ip: new Assert().Ip()
+        authyId: [is.required(), is.authyId()],
+        ip: is.Ip()
       });
 
       return this.rpc.postAsync({
@@ -142,7 +142,7 @@ export default class Client {
       .then(parseResponse)
       .tap(response => {
         assert(response, {
-          message: [new Assert().Required(), new Assert().EqualTo('User was added to remove.')]
+          message: [is.required(), is.equalTo('User was added to remove.')]
         });
       })
       .asCallback(callback);
@@ -159,7 +159,7 @@ export default class Client {
 
       log.debug('Retrieving application details');
 
-      validate({ ip }, { ip: new Assert().Ip() });
+      validate({ ip }, { ip: is.Ip() });
 
       return this.rpc.getAsync({
         qs: _.pickBy({
@@ -172,12 +172,12 @@ export default class Client {
       .tap(response => {
         assert(response, {
           app: {
-            app_id: [new Assert().Required(), new Assert().Integer()],
-            name: [new Assert().Required(), new Assert().IsString()],
-            plan: [new Assert().Required(), new Assert().IsString()],
-            sms_enabled: [new Assert().Required(), new Assert().Boolean()]
+            app_id: [is.required(), is.integer()],
+            name: [is.required(), is.string()],
+            plan: [is.required(), is.string()],
+            sms_enabled: [is.required(), is.boolean()]
           },
-          message: [new Assert().Required(), new Assert().EqualTo('Application information.')]
+          message: [is.required(), is.equalTo('Application information.')]
         });
       })
       .asCallback(callback);
@@ -193,7 +193,7 @@ export default class Client {
       const [[{ id } = {}], callback] = source(...args);
 
       validate({ id }, {
-        id: [new Assert().Required(), new Assert().IsString()]
+        id: [is.required(), is.string()]
       });
 
       return this.onetouch.getAsync({
@@ -207,19 +207,19 @@ export default class Client {
       .tap(response => {
         assert(response, {
           approval_request: {
-            _app_name: [new Assert().Required(), new Assert().IsString()],
-            _app_serial_id: [new Assert().Required(), new Assert().IsString()],
-            _authy_id: [new Assert().Required(), new Assert().AuthyId()],
-            _id: [new Assert().Required(), new Assert().IsString()],
-            _user_email: [new Assert().Required(), new Assert().Email()],
-            app_id: [new Assert().Required(), new Assert().IsString()],
-            created_at: [new Assert().Required(), new Assert().Date()],
-            notified: [new Assert().Required(), new Assert().Boolean()],
-            processed_at: new Assert().Callback(value => new Assert().Null().check(value) === true || new Assert().Date().check(value) === true),
-            status: [new Assert().Required(), new Assert().Choice(['approved', 'denied', 'pending'])],
-            updated_at: [new Assert().Required(), new Assert().Date()],
-            user_id: [new Assert().Required(), new Assert().IsString()],
-            uuid: [new Assert().Required(), new Assert().IsString()]
+            _app_name: [is.required(), is.string()],
+            _app_serial_id: [is.required(), is.string()],
+            _authy_id: [is.required(), is.authyId()],
+            _id: [is.required(), is.string()],
+            _user_email: [is.required(), is.email()],
+            app_id: [is.required(), is.string()],
+            created_at: [is.required(), is.date()],
+            notified: [is.required(), is.boolean()],
+            processed_at: is.callback(value => is.null().check(value) === true || is.date().check(value) === true),
+            status: [is.required(), is.choice(['approved', 'denied', 'pending'])],
+            updated_at: [is.required(), is.date()],
+            user_id: [is.required(), is.string()],
+            uuid: [is.required(), is.string()]
           }
         });
       })
@@ -237,7 +237,7 @@ export default class Client {
 
       log.debug('Retrieving application statistics');
 
-      validate({ ip }, { ip: new Assert().Ip() });
+      validate({ ip }, { ip: is.Ip() });
 
       return this.rpc.getAsync({
         qs: _.pickBy({
@@ -249,11 +249,11 @@ export default class Client {
       .then(parseResponse)
       .tap(response => {
         assert(response, {
-          app_id: [new Assert().Required(), new Assert().Integer()],
-          count: [new Assert().Required(), new Assert().Integer()],
-          message: [new Assert().Required(), new Assert().EqualTo('Monthly statistics.')],
-          stats: [new Assert().Required(), new Assert().Collection(new Assert().EqualKeys(['api_calls_count', 'auths_count', 'calls_count', 'month', 'sms_count', 'users_count', 'year']))],
-          total_users: [new Assert().Required(), new Assert().Integer()]
+          app_id: [is.required(), is.integer()],
+          count: [is.required(), is.integer()],
+          message: [is.required(), is.equalTo('Monthly statistics.')],
+          stats: [is.required(), is.collection(is.equalKeys(['api_calls_count', 'auths_count', 'calls_count', 'month', 'sms_count', 'users_count', 'year']))],
+          total_users: [is.required(), is.integer()]
         });
       })
       .asCallback(callback);
@@ -265,9 +265,9 @@ export default class Client {
       const [[{ countryCode: countryOrCallingCode, phone } = {}, { ip } = {}], callback] = source(...args);
 
       validate({ countryCode: countryOrCallingCode, ip, phone }, {
-        countryCode: [new Assert().Required(), new Assert().CountryOrCallingCode()],
-        ip: new Assert().Ip(),
-        phone: [new Assert().Required(), new Assert().Phone(countryOrCallingCode)]
+        countryCode: [is.required(), is.countryOrCallingCode()],
+        ip: is.Ip(),
+        phone: [is.required(), is.phone(countryOrCallingCode)]
       });
 
       const parsed = parsePhone({ countryOrCallingCode, phone });
@@ -284,10 +284,10 @@ export default class Client {
       .then(parseResponse)
       .tap(response => {
         assert(response, {
-          message: [new Assert().Required(), new Assert().Regexp('Phone number information as of \\d+-\\d+-\\d+ \\d+:\\d+:\\d+ UTC')],
-          ported: [new Assert().Required(), new Assert().Boolean()],
-          provider: [new Assert().Required(), new Assert().IsString()],
-          type: [new Assert().Required(), new Assert().IsString()]
+          message: [is.required(), is.regexp('Phone number information as of \\d+-\\d+-\\d+ \\d+:\\d+:\\d+ UTC')],
+          ported: [is.required(), is.boolean()],
+          provider: [is.required(), is.string()],
+          type: [is.required(), is.string()]
         });
       })
       .asCallback(callback);
@@ -305,8 +305,8 @@ export default class Client {
       log.debug({ authyId }, `Retrieving user ${authyId} status`);
 
       validate({ authyId, ip }, {
-        authyId: [new Assert().Required(), new Assert().AuthyId()],
-        ip: new Assert().Ip()
+        authyId: [is.required(), is.authyId()],
+        ip: is.Ip()
       });
 
       return this.rpc.getAsync({
@@ -319,15 +319,15 @@ export default class Client {
       .then(parseResponse)
       .tap(response => {
         assert(response, {
-          message: [new Assert().Required(), new Assert().EqualTo('User status.')],
+          message: [is.required(), is.equalTo('User status.')],
           status: {
-            authy_id: [new Assert().Required(), new Assert().AuthyId()],
-            confirmed: [new Assert().Required(), new Assert().Boolean()],
-            country_code: [new Assert().Required(), new Assert().CountryOrCallingCode()],
-            devices: new Assert().Required(),
-            has_hard_token: [new Assert().Required(), new Assert().Boolean()],
-            phone_number: [new Assert().Required(), new Assert().IsString()],
-            registered: [new Assert().Required(), new Assert().Boolean()]
+            authy_id: [is.required(), is.authyId()],
+            confirmed: [is.required(), is.boolean()],
+            country_code: [is.required(), is.countryOrCallingCode()],
+            devices: is.required(),
+            has_hard_token: [is.required(), is.boolean()],
+            phone_number: [is.required(), is.string()],
+            registered: [is.required(), is.boolean()]
           }
         });
       })
@@ -346,10 +346,10 @@ export default class Client {
       log.debug(`Registering activity for user ${authyId}`);
 
       validate({ authyId, data, ip, type }, {
-        authyId: [new Assert().Required(), new Assert().AuthyId()],
-        data: [new Assert().Required(), new Assert().PlainObject()],
-        ip: [new Assert().Required(), new Assert().Ip()],
-        type: [new Assert().Required(), new Assert().Activity()]
+        authyId: [is.required(), is.authyId()],
+        data: [is.required(), is.plainObject()],
+        ip: [is.required(), is.Ip()],
+        type: [is.required(), is.Activity()]
       });
 
       return this.rpc.postAsync({
@@ -364,7 +364,7 @@ export default class Client {
       .then(parseResponse)
       .tap(response => {
         assert(response, {
-          message: [new Assert().Required(), new Assert().EqualTo('Activity was created.')]
+          message: [is.required(), is.equalTo('Activity was created.')]
         });
       })
       .asCallback(callback);
@@ -384,10 +384,10 @@ export default class Client {
       log.debug(`Requesting call for user ${authyId}`);
 
       validate({ action, authyId, force, message }, {
-        action: [new Assert().IsString(), new Assert().Length({ max: 255, min: 1 })],
-        authyId: [new Assert().Required(), new Assert().AuthyId()],
-        force: new Assert().Boolean(),
-        message: [new Assert().IsString(), new Assert().Length({ max: 255, min: 1 })]
+        action: [is.string(), is.ofLength({ max: 255, min: 1 })],
+        authyId: [is.required(), is.authyId()],
+        force: is.boolean(),
+        message: [is.string(), is.ofLength({ max: 255, min: 1 })]
       });
 
       return this.rpc.getAsync({
@@ -402,10 +402,10 @@ export default class Client {
       .then(parseResponse)
       .tap(response => {
         assert(response, {
-          cellphone: [new Assert().Required(), new Assert().IsString()],
-          device: new Assert().IsString(),
-          ignored: new Assert().Boolean(),
-          message: [new Assert().Required(), new Assert().IsString()]
+          cellphone: [is.required(), is.string()],
+          device: is.string(),
+          ignored: is.boolean(),
+          message: [is.required(), is.string()]
         });
       })
       .asCallback(callback);
@@ -425,10 +425,10 @@ export default class Client {
       log.debug(`Requesting sms for user ${authyId}`);
 
       validate({ action, authyId, force, message }, {
-        action: [new Assert().IsString(), new Assert().Length({ max: 255, min: 1 })],
-        authyId: [new Assert().Required(), new Assert().AuthyId()],
-        force: new Assert().Boolean(),
-        message: [new Assert().IsString(), new Assert().Length({ max: 255, min: 1 })]
+        action: [is.string(), is.ofLength({ max: 255, min: 1 })],
+        authyId: [is.required(), is.authyId()],
+        force: is.boolean(),
+        message: [is.string(), is.ofLength({ max: 255, min: 1 })]
       });
 
       return this.rpc.getAsync({
@@ -443,10 +443,10 @@ export default class Client {
       .then(parseResponse)
       .tap(response => {
         assert(response, {
-          cellphone: [new Assert().Required(), new Assert().IsString()],
-          device: new Assert().IsString(),
-          ignored: new Assert().Boolean(),
-          message: [new Assert().Required(), new Assert().IsString()]
+          cellphone: [is.required(), is.string()],
+          device: is.string(),
+          ignored: is.boolean(),
+          message: [is.required(), is.string()]
         });
       })
       .asCallback(callback);
@@ -465,9 +465,9 @@ export default class Client {
       log.debug(`Registering user with email ${email} and phone ${phone} (${countryOrCallingCode})`);
 
       validate({ countryCode: countryOrCallingCode, email, phone }, {
-        countryCode: [new Assert().Required(), new Assert().CountryOrCallingCode()],
-        email: [new Assert().Required(), new Assert().Email()],
-        phone: [new Assert().Required(), new Assert().Phone(countryOrCallingCode)]
+        countryCode: [is.required(), is.countryOrCallingCode()],
+        email: [is.required(), is.email()],
+        phone: [is.required(), is.phone(countryOrCallingCode)]
       });
 
       const parsed = parsePhone({ countryOrCallingCode, phone });
@@ -486,9 +486,9 @@ export default class Client {
       .then(parseResponse)
       .tap(response => {
         assert(response, {
-          message: [new Assert().Required(), new Assert().EqualTo('User created successfully.')],
+          message: [is.required(), is.equalTo('User created successfully.')],
           user: {
-            id: [new Assert().Required(), new Assert().AuthyId()]
+            id: [is.required(), is.authyId()]
           }
         });
       })
@@ -507,9 +507,9 @@ export default class Client {
       log.debug(`Verifying token ${token} for user ${authyId}`);
 
       validate({ authyId, force, token }, {
-        authyId: [new Assert().Required(), new Assert().AuthyId()],
-        force: new Assert().Boolean(),
-        token: [new Assert().Required(), new Assert().TotpToken()]
+        authyId: [is.required(), is.authyId()],
+        force: is.boolean(),
+        token: [is.required(), is.totpToken()]
       });
 
       return this.rpc.getAsync({
@@ -522,8 +522,8 @@ export default class Client {
       .then(parseResponse)
       .tap(response => {
         assert(response, {
-          message: [new Assert().Required(), new Assert().EqualTo('Token is valid.')],
-          token: [new Assert().Required(), new Assert().EqualTo('is valid')]
+          message: [is.required(), is.equalTo('Token is valid.')],
+          token: [is.required(), is.equalTo('is valid')]
         });
       })
       .asCallback(callback);
@@ -539,10 +539,10 @@ export default class Client {
       const [[{ countryCode: countryOrCallingCode, phone, via } = {}, { locale } = {}], callback] = source(...args);
 
       validate({ countryCode: countryOrCallingCode, phone, via }, {
-        countryCode: [new Assert().Required(), new Assert().CountryOrCallingCode()],
-        locale: new Assert().Locale(),
-        phone: [new Assert().Required(), new Assert().Phone(countryOrCallingCode)],
-        via: [new Assert().Required(), new Assert().VerificationVia()]
+        countryCode: [is.required(), is.countryOrCallingCode()],
+        locale: is.locale(),
+        phone: [is.required(), is.phone(countryOrCallingCode)],
+        via: [is.required(), is.verificationVia()]
       });
 
       const parsed = parsePhone({ countryOrCallingCode, phone });
@@ -560,10 +560,10 @@ export default class Client {
       .then(parseResponse)
       .tap(response => {
         assert(response, {
-          carrier: [new Assert().Required(), new Assert().IsString()],
-          is_cellphone: [new Assert().Required(), new Assert().Boolean()],
-          is_ported: [new Assert().Required(), new Assert().Boolean()],
-          message: [new Assert().Required(), new Assert().IsString()]
+          carrier: [is.required(), is.string()],
+          is_cellphone: [is.required(), is.boolean()],
+          is_ported: [is.required(), is.boolean()],
+          message: [is.required(), is.string()]
         });
       })
       .asCallback(callback);
@@ -582,23 +582,23 @@ export default class Client {
     return Promise.try(() => {
       validate(request, {
         body: {
-          approval_request: [new Assert().Required(), new Assert().Callback(value => {
-            return new Assert().IsString().check(value) === true || new Assert().PlainObject().check(value) === true;
+          approval_request: [is.required(), is.callback(value => {
+            return is.string().check(value) === true || is.plainObject().check(value) === true;
           })],
-          authy_id: [new Assert().Required(), new Assert().AuthyId()],
-          callback_action: [new Assert().Required(), new Assert().Choice(['approval_request_status'])],
-          device_uuid: [new Assert().Required(), new Assert().IsString()],
-          signature: [new Assert().Required(), new Assert().IsString()],
-          status: [new Assert().Required(), new Assert().Choice(['approved', 'denied'])],
-          uuid: [new Assert().Required(), new Assert().IsString()]
+          authy_id: [is.required(), is.authyId()],
+          callback_action: [is.required(), is.choice(['approval_request_status'])],
+          device_uuid: [is.required(), is.string()],
+          signature: [is.required(), is.string()],
+          status: [is.required(), is.choice(['approved', 'denied'])],
+          uuid: [is.required(), is.string()]
         },
         headers: {
-          'x-authy-signature': [new Assert().IsString(), new Assert().Signature({ key: this.key, request })],
-          'x-authy-signature-nonce': [new Assert().Integer()]
+          'x-authy-signature': [is.string(), is.Signature({ key: this.key, request })],
+          'x-authy-signature-nonce': [is.integer()]
         },
-        method: [new Assert().Required(), new Assert().Choice(['GET', 'POST'])],
-        protocol: [new Assert().Required(), new Assert().Choice(['http', 'https'])],
-        url: [new Assert().Required(), new Assert().IsString()]
+        method: [is.required(), is.choice(['GET', 'POST'])],
+        protocol: [is.required(), is.choice(['http', 'https'])],
+        url: [is.required(), is.string()]
       });
 
       return Promise.resolve(request).asCallback(callback);
@@ -614,9 +614,9 @@ export default class Client {
       const [[{ countryCode: countryOrCallingCode, phone, token } = {}], callback] = source(...args);
 
       validate({ countryCode: countryOrCallingCode, phone, token }, {
-        countryCode: [new Assert().Required(), new Assert().CountryOrCallingCode()],
-        phone: [new Assert().Required(), new Assert().Phone(countryOrCallingCode)],
-        token: [new Assert().Required(), new Assert().Integer()]
+        countryCode: [is.required(), is.countryOrCallingCode()],
+        phone: [is.required(), is.phone(countryOrCallingCode)],
+        token: [is.required(), is.integer()]
       });
 
       const parsed = parsePhone({ countryOrCallingCode, phone });
@@ -633,7 +633,7 @@ export default class Client {
       .then(parseResponse)
       .tap(response => {
         assert(response, {
-          message: [new Assert().Required(), new Assert().EqualTo('Verification code is correct.')]
+          message: [is.required(), is.equalTo('Verification code is correct.')]
         });
       })
       .asCallback(callback);

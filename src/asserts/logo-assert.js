@@ -12,7 +12,7 @@ import { pick, values } from 'lodash';
  * Inject `Uri` and `EqualKeys` extra asserts.
  */
 
-const Assert = BaseAssert.extend(pick(asserts, ['Uri', 'EqualKeys']));
+const is = BaseAssert.extend(pick(asserts, ['Uri', 'EqualKeys']));
 
 /**
  * Resolution choices.
@@ -31,9 +31,9 @@ export default function logoAssert() {
   // Validation algorithm.
   this.validate = value => {
     try {
-      new Assert().EqualKeys(['res', 'url']).validate(value);
-      new Assert().Choice(choices).validate(value.res);
-      new Assert().Uri().validate(value.url);
+      is.equalKeys(['res', 'url']).validate(value);
+      is.choice(choices).validate(value.res);
+      is.uri().validate(value.url);
     } catch (e) {
       throw new Violation(e.assert, value, e.violation);
     }

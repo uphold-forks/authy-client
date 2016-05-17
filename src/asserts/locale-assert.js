@@ -4,7 +4,7 @@
  */
 
 import { locale } from '../enums';
-import { Assert, Validator, Violation } from 'validator.js';
+import { Validator, Violation, Assert as is } from 'validator.js';
 import { isString, values } from 'lodash';
 
 /**
@@ -28,7 +28,7 @@ export default function localeAssert() {
     }
 
     try {
-      new Assert().Choice(choices).validate(value);
+      is.choice(choices).validate(value);
     } catch (e) {
       throw new Violation(this, value, e.violation);
     }
