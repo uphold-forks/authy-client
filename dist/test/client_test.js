@@ -225,7 +225,7 @@ describe('Client', () => {
             country_code: '1',
             locale: 'es',
             phone_number: '7754615609',
-            via: 'call'
+            via: 'sms'
           }
         }
       });
