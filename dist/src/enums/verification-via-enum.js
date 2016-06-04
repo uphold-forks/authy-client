@@ -9,6 +9,6 @@ Object.defineProperty(exports, "__esModule", {
  */
 
 exports.default = {
-  CALL: 'sms',
-  SMS: 'call'
+  CALL: 'call',
+  SMS: 'sms'
 };
