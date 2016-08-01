@@ -475,7 +475,7 @@ describe('Client', () => {
           headers: {
             host: 'foo.bar',
             'x-authy-signature': 'auCQ/qxS6TgwVzOuiWFwU93ZLe8trNoxznJMRfogzeo=',
-            'x-authy-signature-nonce': 1455825429
+            'x-authy-signature-nonce': '1455825429'
           },
           method: 'POST',
           protocol: 'https',
@@ -491,12 +491,25 @@ describe('Client', () => {
 
     it('should throw an error if `headers.x-authy-signature-nonce` is invalid', async () => {
       try {
-        await client.verifyCallback({ headers: { 'x-authy-signature-nonce': 'foo' }, method: 'POST', protocol: 'http', url: '/' });
+        await client.verifyCallback({ headers: { 'x-authy-signature-nonce': {} }, method: 'POST', protocol: 'http', url: '/' });
 
         should.fail();
       } catch (e) {
         e.should.be.instanceOf(ValidationFailedError);
-        e.errors.headers['x-authy-signature-nonce'][0].show().assert.should.equal('Integer');
+        e.errors.headers['x-authy-signature-nonce'][0].show().assert.should.equal('Callback');
+      }
+    });
+
+    it('should accept `headers.x-authy-signature-nonce` as an integer', async () => {
+      try {
+        await client.verifyCallback({ headers: { 'x-authy-signature-nonce': 1234 }, method: 'POST', protocol: 'http', url: '/' });
+
+        should.fail();
+      } catch (e) {
+        e.should.be.instanceOf(ValidationFailedError);
+
+        // No error found under the `headers` key means that the nonce was considered valid.
+        e.errors.should.have.keys('body');
       }
     });
 
@@ -533,7 +546,7 @@ describe('Client', () => {
         headers: {
           host: 'foo.bar',
           'x-authy-signature': 'hqB6las54sMBA83GKs0U1QQi9ocJ2tH20SXHZNzfqqQ=',
-          'x-authy-signature-nonce': 1455825429
+          'x-authy-signature-nonce': '1455825429'
         },
         method: 'POST',
         protocol: 'https',

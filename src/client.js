@@ -594,7 +594,7 @@ export default class Client {
         },
         headers: {
           'x-authy-signature': [is.string(), is.Signature({ key: this.key, request })],
-          'x-authy-signature-nonce': [is.integer()]
+          'x-authy-signature-nonce': [is.callback(value => is.integer().check(value) === true || is.string().check(value) === true)]
         },
         method: [is.required(), is.choice(['GET', 'POST'])],
         protocol: [is.required(), is.choice(['http', 'https'])],
