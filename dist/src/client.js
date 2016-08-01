@@ -826,7 +826,7 @@ class Client {
         },
         headers: {
           'x-authy-signature': [_validator.Assert.string(), _validator.Assert.Signature({ key: this.key, request: request })],
-          'x-authy-signature-nonce': [_validator.Assert.integer()]
+          'x-authy-signature-nonce': [_validator.Assert.callback(value => _validator.Assert.integer().check(value) === true || _validator.Assert.string().check(value) === true)]
         },
         method: [_validator.Assert.required(), _validator.Assert.choice(['GET', 'POST'])],
         protocol: [_validator.Assert.required(), _validator.Assert.choice(['http', 'https'])],
