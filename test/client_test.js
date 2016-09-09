@@ -974,17 +974,6 @@ describe('Client', () => {
       }
     });
 
-    it('should throw an error if `message` is blank', async () => {
-      try {
-        await client.createApprovalRequest({ message: '' });
-
-        should.fail();
-      } catch (e) {
-        e.should.be.instanceOf(ValidationFailedError);
-        e.errors.message[0].show().assert.should.equal('Required');
-      }
-    });
-
     it('should throw an error if `message` has more than 144 characters', async () => {
       try {
         await client.createApprovalRequest({ message: 'f'.repeat(145) });
