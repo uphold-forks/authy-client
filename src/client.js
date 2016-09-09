@@ -496,9 +496,9 @@ export default class Client {
     });
   }
 
- /**
-  * Verify a token submitted by a user.
-  */
+  /**
+   * Verify a token submitted by a user.
+   */
 
   verifyToken(...args) {
     return Promise.try(() => {
