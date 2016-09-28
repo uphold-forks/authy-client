@@ -993,17 +993,6 @@ describe('Client', () => {
       }
     }));
 
-    it('should throw an error if `message` is blank', _asyncToGenerator(function* () {
-      try {
-        yield client.createApprovalRequest({ message: '' });
-
-        _should2.default.fail();
-      } catch (e) {
-        e.should.be.instanceOf(_errors.ValidationFailedError);
-        e.errors.message[0].show().assert.should.equal('Required');
-      }
-    }));
-
     it('should throw an error if `message` has more than 144 characters', _asyncToGenerator(function* () {
       try {
         yield client.createApprovalRequest({ message: 'f'.repeat(145) });
