@@ -1,5 +1,0 @@
-preset: seegno
-
-disallowDanglingUnderscores: false
-
-requireCamelCaseOrUpperCaseIdentifiers: false
