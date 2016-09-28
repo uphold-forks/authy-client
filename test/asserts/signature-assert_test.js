@@ -47,12 +47,12 @@ describe('SignatureAssert', () => {
         key: 'foo',
         request: {
           body: {
-            qux: 'net',
             foo: {
               bar: {
                 biz: 'foo'
               }
-            }
+            },
+            qux: 'net'
           },
           headers: {
             host: 'foo.bar',
@@ -81,12 +81,12 @@ describe('SignatureAssert', () => {
       key: 'foo',
       request: {
         body: {
-          qux: 'net',
           foo: {
             bar: {
               biz: 'foo'
             }
-          }
+          },
+          qux: 'net'
         },
         headers: {
           host: 'foo.bar',
@@ -105,12 +105,12 @@ describe('SignatureAssert', () => {
       key: 'foo',
       request: {
         body: {
-          qux: 'net',
           foo: {
             bar: {
               biz: 'foo bar'
             }
-          }
+          },
+          qux: 'net'
         },
         headers: {
           host: 'foo.bar',
