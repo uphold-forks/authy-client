@@ -2,5 +2,8 @@ extends: seegno
 
 rules:
   id-length: 0
+  id-match: 0
+  new-cap: 0
   no-bitwise: 0
   no-new: 0
+  no-underscore-dangle: 0
