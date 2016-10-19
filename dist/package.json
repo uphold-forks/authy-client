@@ -1,6 +1,6 @@
 {
   "name": "authy-client",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "A complete Authy client with support for TOTP, OneTouch, Phone Verification and Phone Intelligence APIs",
   "keywords": [
     "2 factor",

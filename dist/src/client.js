@@ -569,7 +569,7 @@ class Client {
       }).bind(this).then(_responseParser2.default).tap(response => {
         (0, _validator.assert)(response, {
           cellphone: [_validator.Assert.required(), _validator.Assert.string()],
-          device: _validator.Assert.string(),
+          device: _validator.Assert.nullOrString(),
           ignored: _validator.Assert.boolean(),
           message: [_validator.Assert.required(), _validator.Assert.string()]
         });
@@ -626,7 +626,7 @@ class Client {
       }).bind(this).then(_responseParser2.default).tap(response => {
         (0, _validator.assert)(response, {
           cellphone: [_validator.Assert.required(), _validator.Assert.string()],
-          device: _validator.Assert.string(),
+          device: _validator.Assert.nullOrString(),
           ignored: _validator.Assert.boolean(),
           message: [_validator.Assert.required(), _validator.Assert.string()]
         });

@@ -1,18 +1,19 @@
 # Changelog
 
+## [v1.0.7](https://github.com/seegno/authy-client/tree/v1.0.7) (2016-10-19)
+[Full Changelog](https://github.com/seegno/authy-client/compare/v1.0.6...v1.0.7)
+
+**Merged pull requests:**
+
+- Update device constraint to accept null values [\#21](https://github.com/seegno/authy-client/pull/21) ([ruimarinho](https://github.com/ruimarinho))
+
 ## [v1.0.6](https://github.com/seegno/authy-client/tree/v1.0.6) (2016-09-28)
-[Full Changelog](https://github.com/seegno/authy-client/compare/v1.0.6...v1.0.6)
+[Full Changelog](https://github.com/seegno/authy-client/compare/v1.0.5...v1.0.6)
 
 **Merged pull requests:**
 
 - Add .npmignore to produce smaller packages [\#18](https://github.com/seegno/authy-client/pull/18) ([ruimarinho](https://github.com/ruimarinho))
 - Update dependencies [\#17](https://github.com/seegno/authy-client/pull/17) ([ruimarinho](https://github.com/ruimarinho))
-
-## [v1.0.6](https://github.com/seegno/authy-client/tree/v1.0.6) (2016-09-09)
-[Full Changelog](https://github.com/seegno/authy-client/compare/v1.0.5...v1.0.6)
-
-**Merged pull requests:**
-
 - Update JSCS@3.0.7 [\#16](https://github.com/seegno/authy-client/pull/16) ([fixe](https://github.com/fixe))
 - Fix tests not passing [\#15](https://github.com/seegno/authy-client/pull/15) ([pedrobranco](https://github.com/pedrobranco))
 - Fix request-debug logging [\#13](https://github.com/seegno/authy-client/pull/13) ([pedrobranco](https://github.com/pedrobranco))
