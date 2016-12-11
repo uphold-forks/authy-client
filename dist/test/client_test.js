@@ -24,7 +24,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
-function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { return step("next", value); }, function (err) { return step("throw", err); }); } } return step("next"); }); }; }
+function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
 /**
  * Module dependencies.
  */
@@ -877,7 +877,7 @@ describe('Client', () => {
       (0, _nock2.default)(/authy/).get(/\//).reply(200, {
         approval_request: {
           _app_name: 123,
-          _app_serial_id: 123,
+          _app_serial_id: '123',
           _authy_id: 'foo',
           _id: 123,
           _user_email: 'bar',
@@ -901,7 +901,7 @@ describe('Client', () => {
         e.should.be.instanceOf(_errors.AssertionFailedError);
 
         e.errors.approval_request._app_name[0].show().assert.should.equal('IsString');
-        e.errors.approval_request._app_serial_id[0].show().assert.should.equal('IsString');
+        e.errors.approval_request._app_serial_id[0].show().assert.should.equal('Integer');
         e.errors.approval_request._authy_id[0].show().assert.should.equal('AuthyId');
         e.errors.approval_request._id[0].show().assert.should.equal('IsString');
         e.errors.approval_request._user_email[0].show().assert.should.equal('Email');

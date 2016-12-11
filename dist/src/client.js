@@ -306,7 +306,7 @@ class Client {
         (0, _validator.assert)(response, {
           approval_request: {
             _app_name: [_validator.Assert.required(), _validator.Assert.string()],
-            _app_serial_id: [_validator.Assert.required(), _validator.Assert.string()],
+            _app_serial_id: [_validator.Assert.required(), _validator.Assert.integer()],
             _authy_id: [_validator.Assert.required(), _validator.Assert.authyId()],
             _id: [_validator.Assert.required(), _validator.Assert.string()],
             _user_email: [_validator.Assert.required(), _validator.Assert.email()],

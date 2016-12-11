@@ -1,5 +1,13 @@
 # Changelog
 
+## [v1.0.8](https://github.com/seegno/authy-client/tree/v1.0.8) (2016-12-11)
+[Full Changelog](https://github.com/seegno/authy-client/compare/v1.0.7...v1.0.8)
+
+**Merged pull requests:**
+
+- Update \_app\_serial\_id constraint to accept integer values [\#23](https://github.com/seegno/authy-client/pull/23) ([ruimarinho](https://github.com/ruimarinho))
+- Fix typo in README [\#22](https://github.com/seegno/authy-client/pull/22) ([fixe](https://github.com/fixe))
+
 ## [v1.0.7](https://github.com/seegno/authy-client/tree/v1.0.7) (2016-10-19)
 [Full Changelog](https://github.com/seegno/authy-client/compare/v1.0.6...v1.0.7)
 

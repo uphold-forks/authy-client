@@ -61,7 +61,7 @@ function succeed() {
       body: {
         approval_request: {
           _app_name: 'Test',
-          _app_serial_id: '29225',
+          _app_serial_id: 29225,
           _authy_id: '1635',
           _id: '56ad18731170706b7f00e352',
           _user_email: 'foo@bar.com',

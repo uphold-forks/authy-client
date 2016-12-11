@@ -61,7 +61,7 @@ describe('PhoneAssert', () => {
     }, {
       countryCode: 'GB',
       phone: '(809) 234 5678'
-    }].forEach(_ref => {
+    }].forEach((_ref) => {
       let countryCode = _ref.countryCode;
       let phone = _ref.phone;
 
@@ -121,7 +121,7 @@ describe('PhoneAssert', () => {
       countryOrCallingCode: '882',
       expectedCountryCode: '882',
       phone: '+88313300655'
-    }].forEach(_ref2 => {
+    }].forEach((_ref2) => {
       let countryOrCallingCode = _ref2.countryOrCallingCode;
       let phone = _ref2.phone;
       let expectedCountryCode = _ref2.expectedCountryCode;
@@ -186,7 +186,7 @@ describe('PhoneAssert', () => {
     }, {
       countryOrCallingCode: '882',
       phone: '+88213300655'
-    }].forEach(_ref3 => {
+    }].forEach((_ref3) => {
       let countryOrCallingCode = _ref3.countryOrCallingCode;
       let phone = _ref3.phone;
 
