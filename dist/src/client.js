@@ -17,7 +17,7 @@ var _lodash = require('lodash');
 
 var _lodash2 = _interopRequireDefault(_lodash);
 
-var _debugnyan = require('./logging/debugnyan');
+var _debugnyan = require('debugnyan');
 
 var _debugnyan2 = _interopRequireDefault(_debugnyan);
 
@@ -37,7 +37,7 @@ var _responseParser = require('./parsers/response-parser');
 
 var _responseParser2 = _interopRequireDefault(_responseParser);
 
-var _request = require('request');
+var _request = require('./logging/request');
 
 var _request2 = _interopRequireDefault(_request);
 

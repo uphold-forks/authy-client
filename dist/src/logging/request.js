@@ -1,12 +1,18 @@
 'use strict';
 
-var _requestDebug = require('request-debug');
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 
-var _requestDebug2 = _interopRequireDefault(_requestDebug);
-
-var _debugnyan = require('./debugnyan');
+var _debugnyan = require('debugnyan');
 
 var _debugnyan2 = _interopRequireDefault(_debugnyan);
+
+var _requestLogger = require('@uphold/request-logger');
+
+var _requestLogger2 = _interopRequireDefault(_requestLogger);
+
+var _requestObfuscator = require('./request-obfuscator');
 
 var _request = require('request');
 
@@ -18,25 +24,24 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * Instances.
  */
 
-const log = (0, _debugnyan2.default)('authy:request');
 /**
  * Module dependencies.
  */
 
-const replacement = /(api_key=)([^&])*/;
+const log = (0, _debugnyan2.default)('authy:request');
 
 /**
- * Customize log handler.
+ * Export `request`.
  */
 
-(0, _requestDebug2.default)(_request2.default, (type, data) => {
-  const uri = (data.uri || '').replace(replacement, '$1*****');
+exports.default = (0, _requestLogger2.default)(_request2.default, request => {
+  (0, _requestObfuscator.obfuscate)(request);
 
-  let message = `Making request #${ data.debugId } to ${ data.method } ${ uri }`;
+  if (request.type === 'response') {
+    log.debug({ request: request }, `Received response for request ${ request.id }`);
 
-  if (type === 'response') {
-    message = `Received response for request #${ data.debugId }`;
+    return;
   }
 
-  log.debug({ [type]: data, type: type }, message);
+  log.debug({ request: request }, `Making request ${ request.id } to ${ request.method } ${ request.uri }`);
 });

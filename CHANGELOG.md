@@ -1,5 +1,12 @@
 # Changelog
 
+## [v1.0.9](https://github.com/seegno/authy-client/tree/v1.0.9) (2017-01-12)
+[Full Changelog](https://github.com/seegno/authy-client/compare/v1.0.8...v1.0.9)
+
+**Merged pull requests:**
+
+- Replace `request-debug` with `request-logger` [\#24](https://github.com/seegno/authy-client/pull/24) ([pedrobranco](https://github.com/pedrobranco))
+
 ## [v1.0.8](https://github.com/seegno/authy-client/tree/v1.0.8) (2016-12-11)
 [Full Changelog](https://github.com/seegno/authy-client/compare/v1.0.7...v1.0.8)
 

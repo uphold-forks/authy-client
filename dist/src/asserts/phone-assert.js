@@ -7,7 +7,7 @@ exports.default = phoneAssert;
 
 var _googleLibphonenumber = require('google-libphonenumber');
 
-var _debugnyan = require('../logging/debugnyan');
+var _debugnyan = require('debugnyan');
 
 var _debugnyan2 = _interopRequireDefault(_debugnyan);
 

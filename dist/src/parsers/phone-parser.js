@@ -13,7 +13,7 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
 
 exports.default = parse;
 
-var _debugnyan = require('../logging/debugnyan');
+var _debugnyan = require('debugnyan');
 
 var _debugnyan2 = _interopRequireDefault(_debugnyan);
 
