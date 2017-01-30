@@ -24,7 +24,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
-function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { return step("next", value); }, function (err) { return step("throw", err); }); } } return step("next"); }); }; }
+function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
 /**
  * Module dependencies.
  */
@@ -41,7 +41,7 @@ _nock2.default.disableNetConnect();
 
 afterEach(() => {
   if (_nock2.default.pendingMocks().length) {
-    throw new Error(`Unexpected pending mocks ${ JSON.stringify(_nock2.default.pendingMocks()) }`);
+    throw new Error(`Unexpected pending mocks ${JSON.stringify(_nock2.default.pendingMocks())}`);
   }
 
   _nock2.default.cleanAll();
@@ -196,7 +196,6 @@ describe('Client', () => {
 
         e.errors.message.show().assert.should.equal('HaveProperty');
         e.errors.is_cellphone.show().assert.should.equal('HaveProperty');
-        e.errors.is_ported.show().assert.should.equal('HaveProperty');
         e.errors.message.show().assert.should.equal('HaveProperty');
       }
     }));
@@ -222,7 +221,7 @@ describe('Client', () => {
       mocks.startPhoneVerification.succeed({
         request: {
           body: {
-            country_code: '1',
+            country_code: 1,
             locale: 'es',
             phone_number: '7754615609',
             via: 'sms'
@@ -715,7 +714,6 @@ describe('Client', () => {
       mocks.verifyPhone.succeed({
         request: {
           query: {
-            api_key: '{key}',
             country_code: '1',
             phone_number: '7754615609',
             verification_code: '1234'
@@ -916,14 +914,16 @@ describe('Client', () => {
       }
     }));
 
-    it('should return the status of an approval request', _asyncToGenerator(function* () {
-      mocks.getApprovalRequest.succeed({ status: 'pending' });
+    ['approved', 'denied', 'expired', 'pending'].forEach(status => {
+      it(`should return the status of a(n) ${status} approval request`, _asyncToGenerator(function* () {
+        mocks.getApprovalRequest.succeed({ status: status, ttl: -1 });
 
-      const approvalRequest = yield client.getApprovalRequest({ id: '550e8400-e29b-41d4-a716-446655440000' });
+        const approvalRequest = yield client.getApprovalRequest({ id: '550e8400-e29b-41d4-a716-446655440000' });
 
-      approvalRequest.should.have.keys('approval_request', 'success');
-      approvalRequest.approval_request.should.have.keys('_app_name', '_app_serial_id', '_authy_id', '_id', '_user_email', 'app_id', 'created_at', 'notified', 'processed_at', 'status', 'updated_at', 'user_id', 'uuid');
-    }));
+        approvalRequest.should.have.keys('approval_request', 'success');
+        approvalRequest.approval_request.should.have.keys('_app_name', '_app_serial_id', '_authy_id', '_id', '_user_email', 'app_id', 'created_at', 'notified', 'processed_at', 'status', 'updated_at', 'user_id', 'uuid');
+      }));
+    });
 
     it('should accept a callback', done => {
       mocks.getApprovalRequest.succeed();
@@ -1105,17 +1105,23 @@ describe('Client', () => {
       mocks.createApprovalRequest.succeed({
         request: {
           body: {
-            api_key: '{key}',
-            'details[Account Number]': '981266321',
-            'details[location]': 'California, USA',
-            'details[username]': 'Bill Smith',
-            'hidden_details[ip_address]': '10.10.3.203',
-            'logos[0][res]': 'default',
-            'logos[0][url]': 'https://example.com/logos/default.png',
-            'logos[1][res]': 'low',
-            'logos[1][url]': 'https://example.com/logos/low.png',
+            details: {
+              'Account Number': '981266321',
+              location: 'California, USA',
+              username: 'Bill Smith'
+            },
+            hidden_details: {
+              ip_address: '10.10.3.203'
+            },
+            logos: [{
+              res: 'default',
+              url: 'https://example.com/logos/default.png'
+            }, {
+              res: 'low',
+              url: 'https://example.com/logos/low.png'
+            }],
             message: 'Login requested for a CapTrade Bank account.',
-            seconds_to_expire: '120'
+            seconds_to_expire: 120
           }
         }
       });
@@ -1275,9 +1281,11 @@ describe('Client', () => {
       mocks.registerUser.succeed({
         request: {
           body: {
-            'user[cellphone]': '911234567',
-            'user[country_code]': '351',
-            'user[email]': 'foo@bar.com'
+            user: {
+              cellphone: '911234567',
+              country_code: 351,
+              email: 'foo@bar.com'
+            }
           }
         }
       });
@@ -2045,8 +2053,8 @@ describe('Client', () => {
   });
 
   describe('registerActivity()', () => {
-    ['authyId', 'type', 'ip'].forEach(parameter => {
-      it(`should throw an error if \`${ parameter }\` is missing`, _asyncToGenerator(function* () {
+    ['authyId', 'type'].forEach(parameter => {
+      it(`should throw an error if \`${parameter}\` is missing`, _asyncToGenerator(function* () {
         try {
           yield client.registerActivity();
 
@@ -2066,6 +2074,17 @@ describe('Client', () => {
       } catch (e) {
         e.should.be.instanceOf(_errors.ValidationFailedError);
         e.errors.authyId[0].show().assert.should.equal('AuthyId');
+      }
+    }));
+
+    it('should throw an error if `data` is invalid', _asyncToGenerator(function* () {
+      try {
+        yield client.registerActivity({ data: '' });
+
+        _should2.default.fail();
+      } catch (e) {
+        e.should.be.instanceOf(_errors.ValidationFailedError);
+        e.errors.data[0].show().assert.should.equal('PlainObject');
       }
     }));
 
@@ -2120,7 +2139,17 @@ describe('Client', () => {
     }));
 
     it('should register the activity', _asyncToGenerator(function* () {
-      mocks.registerActivity.succeed({ request: { body: { 'data[reason]': 'foo', type: 'banned', user_ip: '86.112.56.34' } } });
+      mocks.registerActivity.succeed({
+        request: {
+          body: {
+            data: {
+              reason: 'foo'
+            },
+            type: 'banned',
+            user_ip: '86.112.56.34'
+          }
+        }
+      });
 
       yield client.registerActivity({ authyId: 1635, data: { reason: 'foo' }, type: 'banned' }, { ip: '86.112.56.34' });
     }));

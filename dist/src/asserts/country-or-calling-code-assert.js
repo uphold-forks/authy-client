@@ -47,19 +47,19 @@ function countryOrCallingCodeAssert() {
 
     if (!numeric.test(value)) {
       if (phoneUtil.getMetadataForRegion(value) === null) {
-        log.debug({ countryCode: value }, `Unknown country code ${ value }`);
+        log.debug({ countryCode: value }, `Unknown country code ${value}`);
 
         throw new _validator.Violation(this, value);
       }
 
-      log.debug({ countryCode: value }, `Country code ${ value } is valid`);
+      log.debug({ countryCode: value }, `Country code ${value} is valid`);
     } else if (_googleLibphonenumber.PhoneNumberUtil.UNKNOWN_REGION_ === phoneUtil.getRegionCodeForCountryCode(value)) {
-      log.debug({ countryCallingCode: value }, `Unknown country calling code ${ value }`);
+      log.debug({ countryCallingCode: value }, `Unknown country calling code ${value}`);
 
       throw new _validator.Violation(this, value);
     }
 
-    log.debug({ countryCallingCode: value }, `Country calling code ${ value } is valid`);
+    log.debug({ countryCallingCode: value }, `Country calling code ${value} is valid`);
 
     return true;
   };

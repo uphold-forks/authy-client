@@ -23,9 +23,8 @@ function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in ob
 
 class HttpError extends _standardError2.default {
   constructor(_ref) {
-    let code = _ref.code;
-
-    let rest = _objectWithoutProperties(_ref, ['code']);
+    let code = _ref.code,
+        rest = _objectWithoutProperties(_ref, ['code']);
 
     super(code, (0, _lodash.get)(rest, 'message', (0, _lodash.get)(rest, 'properties.body.message')), rest.properties);
   }

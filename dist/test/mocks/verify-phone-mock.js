@@ -5,8 +5,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.succeed = succeed;
 
-var _lodash = require('lodash');
-
 var _nock = require('nock');
 
 var _nock2 = _interopRequireDefault(_nock);
@@ -17,10 +15,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * Mock a GET request to verify a phone.
  */
 
-/**
- * Module dependencies.
- */
-
 function mock(_ref) {
   var _ref$request = _ref.request;
   let request = _ref$request === undefined ? {} : _ref$request;
@@ -28,22 +22,24 @@ function mock(_ref) {
   let response = _ref$response === undefined ? {} : _ref$response;
 
   return (0, _nock2.default)(/\.authy\.com/).filteringPath(path => {
-    path = path.replace(/key=.*?(&|$)/, 'key={key}$1');
-
     if (!(request.query && request.query.verification_code)) {
       return path.replace(/verification_code=.*?(&|$)/, 'verification_code={token}$1');
     }
 
     return path;
-  }).get('/protected/json/phones/verification/check').query(request.query ? (0, _lodash.defaults)({ api_key: '{key}' }, request.query) : true).reply(response.code, response.body);
+  }).get('/protected/json/phones/verification/check').query(request.query ? request.query : true).reply(response.code, response.body);
 }
 
 /**
  * Export a request that will `succeed`.
  */
 
+/**
+ * Module dependencies.
+ */
+
 function succeed() {
-  var _ref2 = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+  var _ref2 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
   let request = _ref2.request;
 

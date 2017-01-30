@@ -26,8 +26,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function parse(_ref) {
   var _ref2 = _slicedToArray(_ref, 2);
 
-  let response = _ref2[0];
-  let body = _ref2[1];
+  let response = _ref2[0],
+      body = _ref2[1];
   const statusCode = response.statusCode;
 
 

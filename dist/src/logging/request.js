@@ -38,10 +38,10 @@ exports.default = (0, _requestLogger2.default)(_request2.default, request => {
   (0, _requestObfuscator.obfuscate)(request);
 
   if (request.type === 'response') {
-    log.debug({ request: request }, `Received response for request ${ request.id }`);
+    log.debug({ request: request }, `Received response for request ${request.id}`);
 
     return;
   }
 
-  log.debug({ request: request }, `Making request ${ request.id } to ${ request.method } ${ request.uri }`);
+  log.debug({ request: request }, `Making request ${request.id} to ${request.method} ${request.uri}`);
 });

@@ -26,10 +26,10 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
  */
 
 function signatureAssert() {
-  var _ref = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+  var _ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
-  let key = _ref.key;
-  let request = _ref.request;
+  let key = _ref.key,
+      request = _ref.request;
 
   // Class name.
   this.__class__ = 'Signature';
@@ -54,18 +54,21 @@ function signatureAssert() {
     var _request = this.request;
     const body = _request.body;
     var _request$headers = _request.headers;
-    const nonce = _request$headers['x-authy-signature-nonce'];
-    const host = _request$headers.host;
-    const method = _request.method;
-    const protocol = _request.protocol;
-    const path = _request.url;
+    const nonce = _request$headers['x-authy-signature-nonce'],
+          host = _request$headers.host,
+          method = _request.method,
+          protocol = _request.protocol,
+          path = _request.url;
 
-    const url = (0, _url.parse)(`${ protocol }://${ host }${ path }`, true);
+    const url = (0, _url.parse)(`${protocol}://${host}${path}`, true);
 
     // Stringify body using sorted keys and encoding spaces as "+" instead of "%20".
-    const encoded = qs.stringify(body, { sort: (a, b) => a.localeCompare(b) }).replace(/%20/g, '+');
+    const encoded = qs.stringify(body, {
+      arrayFormat: 'brackets',
+      sort: (a, b) => a.localeCompare(b)
+    }).replace(/%20/g, '+');
 
-    const data = `${ nonce }|${ method }|${ url.protocol }//${ url.host }${ url.pathname }|${ encoded }`;
+    const data = `${nonce}|${method}|${url.protocol}//${url.host}${url.pathname}|${encoded}`;
     const signature = (0, _crypto.createHmac)('sha256', this.key).update(data).digest('base64');
 
     if (signature !== value) {

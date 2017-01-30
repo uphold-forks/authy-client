@@ -1,5 +1,18 @@
 # Changelog
 
+## [v1.0.10](https://github.com/seegno/authy-client/tree/v1.0.10) (2017-01-30)
+[Full Changelog](https://github.com/seegno/authy-client/compare/v1.0.9...v1.0.10)
+
+**Merged pull requests:**
+
+- Fix example phone numbers [\#32](https://github.com/seegno/authy-client/pull/32) ([ruimarinho](https://github.com/ruimarinho))
+- Remove required assert from activity data and ip [\#30](https://github.com/seegno/authy-client/pull/30) ([ruimarinho](https://github.com/ruimarinho))
+- Remove required assert from is\_ported on start phone verification [\#29](https://github.com/seegno/authy-client/pull/29) ([ruimarinho](https://github.com/ruimarinho))
+- Add expired status to approval requests [\#28](https://github.com/seegno/authy-client/pull/28) ([ruimarinho](https://github.com/ruimarinho))
+- Clarify description of the activity IP [\#27](https://github.com/seegno/authy-client/pull/27) ([ruimarinho](https://github.com/ruimarinho))
+- Replace api\_key querystring or body parameter by more secure header [\#26](https://github.com/seegno/authy-client/pull/26) ([ruimarinho](https://github.com/ruimarinho))
+- Actually post data as application/json, not form-data [\#25](https://github.com/seegno/authy-client/pull/25) ([holm](https://github.com/holm))
+
 ## [v1.0.9](https://github.com/seegno/authy-client/tree/v1.0.9) (2017-01-12)
 [Full Changelog](https://github.com/seegno/authy-client/compare/v1.0.8...v1.0.9)
 

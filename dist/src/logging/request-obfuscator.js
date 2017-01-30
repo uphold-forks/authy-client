@@ -11,7 +11,7 @@ var _lodash = require('lodash');
  * Instances.
  */
 
-const replacement = /(api_key=)([^&])*/;
+const key = 'X-Authy-API-Key';
 
 /**
  * Export `RequestObfuscator`.
@@ -22,11 +22,9 @@ const replacement = /(api_key=)([^&])*/;
  */
 
 function obfuscate(request) {
-  // Obfuscate the API key on `uri`.
-  request.uri = request.uri.replace(replacement, '$1*****');
-
-  // Obfuscate the API key on `body`.
-  if ((0, _lodash.isString)(request.body)) {
-    request.body = request.body.replace(replacement, '$1*****');
+  if (!(0, _lodash.has)(request, `headers.${key}`)) {
+    return request;
   }
+
+  request.headers[key] = '*****';
 }

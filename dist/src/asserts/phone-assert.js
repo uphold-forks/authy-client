@@ -74,7 +74,7 @@ function phoneAssert(countryOrCallingCode) {
         countriesWithSameCallingCode = phoneUtil.getRegionCodesForCountryCode(this.countryOrCallingCode);
 
         if (_googleLibphonenumber.PhoneNumberUtil.REGION_CODE_FOR_NON_GEO_ENTITY === countryCode && !expressions.plusSign.test(phone)) {
-          phone = `+${ this.countryOrCallingCode }${ phone }`;
+          phone = `+${this.countryOrCallingCode}${phone}`;
         }
       }
 
@@ -83,32 +83,32 @@ function phoneAssert(countryOrCallingCode) {
 
       // This validation is necessary to validate IDD formatted numbers.
       if (!phoneUtil.isValidNumber(phoneNumber)) {
-        throw new Error(`Phone ${ phone } is not valid`);
+        throw new Error(`Phone ${phone} is not valid`);
       }
 
       if (this.isCountryCodeNumeric) {
         if (countryCode === _googleLibphonenumber.PhoneNumberUtil.UNKNOWN_REGION_) {
-          log.debug({ countryCallingCode: this.countryOrCallingCode, countryCode: countryCode, phone: phone }, `Phone ${ phone } is valid but country code validation skipped because region is unknown (${ this.countryOrCallingCode } -> ${ countryCode })`);
+          log.debug({ countryCallingCode: this.countryOrCallingCode, countryCode: countryCode, phone: phone }, `Phone ${phone} is valid but country code validation skipped because region is unknown (${this.countryOrCallingCode} -> ${countryCode})`);
 
           return true;
         }
 
         if (this.countryOrCallingCode !== String(phoneNumber.getCountryCode())) {
-          throw new Error(`Phone ${ phone } is valid but not for country calling code ${ this.countryOrCallingCode } (expected ${ phoneNumber.getCountryCode() })`);
+          throw new Error(`Phone ${phone} is valid but not for country calling code ${this.countryOrCallingCode} (expected ${phoneNumber.getCountryCode()})`);
         }
 
         if (countriesWithSameCallingCode.length > 1) {
-          log.debug({ countryCallingCode: this.countryOrCallingCode, countryCode: countryCode, countryCodes: countriesWithSameCallingCode, phone: phone }, `Phone ${ phone } is valid but country code validation skipped because code ${ this.countryOrCallingCode } is assigned to multiple regions`);
+          log.debug({ countryCallingCode: this.countryOrCallingCode, countryCode: countryCode, countryCodes: countriesWithSameCallingCode, phone: phone }, `Phone ${phone} is valid but country code validation skipped because code ${this.countryOrCallingCode} is assigned to multiple regions`);
 
           return true;
         }
       }
 
       if (!phoneUtil.isValidNumberForRegion(phoneNumber, countryCode)) {
-        throw new Error(`Phone ${ phone } is valid but not for country code ${ this.countryOrCallingCode } (expected ${ phoneUtil.getRegionCodeForNumber(phoneNumber) })`);
+        throw new Error(`Phone ${phone} is valid but not for country code ${this.countryOrCallingCode} (expected ${phoneUtil.getRegionCodeForNumber(phoneNumber)})`);
       }
 
-      log.debug(`Phone ${ phone } is valid for country code ${ countryCode }${ this.countryOrCallingCode !== countryCode ? ` (${ this.countryOrCallingCode })` : '' }`);
+      log.debug(`Phone ${phone} is valid for country code ${countryCode}${this.countryOrCallingCode !== countryCode ? ` (${this.countryOrCallingCode})` : ''}`);
     } catch (e) {
       if (e.message) {
         log.debug(e.message);

@@ -14,29 +14,23 @@ var _requestObfuscator = require('../../src/logging/request-obfuscator');
 
 describe('RequestObfuscator', () => {
   describe('obfuscate()', () => {
-    it('should strip credentials from query string', () => {
-      const request = {
-        id: '354f8341-eb27-4c91-a8f7-a30e303a0976',
-        method: 'GET',
-        uri: 'foo=bar&api_key=foobar'
-      };
+    it('should ignore a request that does not include headers', () => {
+      // A request object with type `response` won't have headers.
+      const request = {};
 
-      (0, _requestObfuscator.obfuscate)(request);
-
-      request.should.eql((0, _lodash.defaults)({ uri: 'foo=bar&api_key=*****' }, request));
+      (0, _requestObfuscator.obfuscate)(request).should.equal(request);
     });
 
-    it('should strip credentials from request `body`', () => {
+    it('should strip credentials from header', () => {
       const request = {
-        body: 'foo=bar&api_key=foobar',
-        id: '354f8341-eb27-4c91-a8f7-a30e303a0976',
-        method: 'GET',
-        uri: 'foo=bar&api_key=foobar'
+        headers: {
+          'X-Authy-API-Key': 'foobar'
+        }
       };
 
       (0, _requestObfuscator.obfuscate)(request);
 
-      request.should.eql((0, _lodash.defaults)({ body: 'foo=bar&api_key=*****' }, request));
+      request.should.eql((0, _lodash.defaults)({ headers: { 'X-Authy-API-Key': '*****' } }, request));
     });
   });
 });

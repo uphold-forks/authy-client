@@ -78,13 +78,13 @@ function source() {
 
 class Client {
   constructor() {
-    var _ref = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+    var _ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
     let key = _ref.key;
 
-    var _ref2 = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+    var _ref2 = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {},
+        _ref2$host = _ref2.host;
 
-    var _ref2$host = _ref2.host;
     let host = _ref2$host === undefined ? 'https://api.authy.com' : _ref2$host;
     var _ref2$timeout = _ref2.timeout;
     let timeout = _ref2$timeout === undefined ? 5000 : _ref2$timeout;
@@ -102,7 +102,8 @@ class Client {
     // Request default options.
     this.defaults = {
       headers: {
-        'User-Agent': `${ _package2.default.name }/${ _package2.default.version } (${ _package2.default.homepage })`
+        'User-Agent': `${_package2.default.name}/${_package2.default.version} (${_package2.default.homepage})`,
+        'X-Authy-API-Key': this.key
       },
       json: true,
       strictSSL: true,
@@ -110,15 +111,14 @@ class Client {
     };
 
     this.rpc = _bluebird2.default.promisifyAll(_request2.default.defaults(_lodash2.default.defaultsDeep({
-      baseUrl: `${ this.host }/protected/json/`,
-      qs: { api_key: this.key }
+      baseUrl: `${this.host}/protected/json/`
     }, this.defaults)), { multiArgs: true });
 
     this.onetouch = _bluebird2.default.promisifyAll(_request2.default.defaults(_lodash2.default.defaultsDeep({
-      baseUrl: `${ this.host }/onetouch/json/`
+      baseUrl: `${this.host}/onetouch/json/`
     }, this.defaults)), { multiArgs: true });
 
-    log.debug({ host: host }, `Host set to ${ host }`);
+    log.debug({ host: host }, `Host set to ${host}`);
   }
 
   /**
@@ -131,23 +131,21 @@ class Client {
     }
 
     return _bluebird2.default.try(() => {
-      var _source = source.apply(undefined, args);
+      var _source = source.apply(undefined, args),
+          _source2 = _slicedToArray(_source, 2),
+          _source2$ = _slicedToArray(_source2[0], 2),
+          _source2$$ = _source2$[0];
 
-      var _source2 = _slicedToArray(_source, 2);
-
-      var _source2$ = _slicedToArray(_source2[0], 2);
-
-      var _source2$$ = _source2$[0];
       _source2$$ = _source2$$ === undefined ? {} : _source2$$;
       const authyId = _source2$$.authyId;
       var _source2$$$details = _source2$$.details;
-      const details = _source2$$$details === undefined ? {} : _source2$$$details;
-      const logos = _source2$$.logos;
-      const message = _source2$$.message;
+      const details = _source2$$$details === undefined ? {} : _source2$$$details,
+            logos = _source2$$.logos,
+            message = _source2$$.message;
       var _source2$$2 = _source2$[1];
       _source2$$2 = _source2$$2 === undefined ? {} : _source2$$2;
-      const ttl = _source2$$2.ttl;
-      const callback = _source2[1];
+      const ttl = _source2$$2.ttl,
+            callback = _source2[1];
 
 
       (0, _validator.validate)({ authyId: authyId, details: details, logos: logos, message: message, ttl: ttl }, {
@@ -162,15 +160,14 @@ class Client {
       });
 
       return this.onetouch.postAsync({
-        form: {
-          api_key: this.key,
+        body: {
           details: details.visible,
           hidden_details: details.hidden,
           logos: logos,
           message: message,
           seconds_to_expire: ttl
         },
-        uri: _urlEscapeTag2.default`users/${ authyId }/approval_requests`
+        uri: _urlEscapeTag2.default`users/${authyId}/approval_requests`
       }).bind(this).then(_responseParser2.default).tap(response => {
         (0, _validator.assert)(response, {
           approval_request: {
@@ -191,22 +188,20 @@ class Client {
     }
 
     return _bluebird2.default.try(() => {
-      var _source3 = source.apply(undefined, args);
+      var _source3 = source.apply(undefined, args),
+          _source4 = _slicedToArray(_source3, 2),
+          _source4$ = _slicedToArray(_source4[0], 2),
+          _source4$$ = _source4$[0];
 
-      var _source4 = _slicedToArray(_source3, 2);
-
-      var _source4$ = _slicedToArray(_source4[0], 2);
-
-      var _source4$$ = _source4$[0];
       _source4$$ = _source4$$ === undefined ? {} : _source4$$;
       const authyId = _source4$$.authyId;
       var _source4$$2 = _source4$[1];
       _source4$$2 = _source4$$2 === undefined ? {} : _source4$$2;
-      const ip = _source4$$2.ip;
-      const callback = _source4[1];
+      const ip = _source4$$2.ip,
+            callback = _source4[1];
 
 
-      log.debug({ authyId: authyId }, `Deleting user ${ authyId }`);
+      log.debug({ authyId: authyId }, `Deleting user ${authyId}`);
 
       (0, _validator.validate)({ authyId: authyId, ip: ip }, {
         authyId: [_validator.Assert.required(), _validator.Assert.authyId()],
@@ -214,10 +209,10 @@ class Client {
       });
 
       return this.rpc.postAsync({
-        form: _lodash2.default.pickBy({
+        body: _lodash2.default.pickBy({
           user_ip: ip
         }, _lodash2.default.identity),
-        uri: _urlEscapeTag2.default`users/${ authyId }/delete`
+        uri: _urlEscapeTag2.default`users/${authyId}/delete`
       }).bind(this).then(_responseParser2.default).tap(response => {
         (0, _validator.assert)(response, {
           message: [_validator.Assert.required(), _validator.Assert.equalTo('User was added to remove.')]
@@ -236,16 +231,14 @@ class Client {
     }
 
     return _bluebird2.default.try(() => {
-      var _source5 = source.apply(undefined, args);
+      var _source5 = source.apply(undefined, args),
+          _source6 = _slicedToArray(_source5, 2),
+          _source6$ = _slicedToArray(_source6[0], 1),
+          _source6$$ = _source6$[0];
 
-      var _source6 = _slicedToArray(_source5, 2);
-
-      var _source6$ = _slicedToArray(_source6[0], 1);
-
-      var _source6$$ = _source6$[0];
       _source6$$ = _source6$$ === undefined ? {} : _source6$$;
-      const ip = _source6$$.ip;
-      const callback = _source6[1];
+      const ip = _source6$$.ip,
+            callback = _source6[1];
 
 
       log.debug('Retrieving application details');
@@ -281,28 +274,21 @@ class Client {
     }
 
     return _bluebird2.default.try(() => {
-      var _source7 = source.apply(undefined, args);
+      var _source7 = source.apply(undefined, args),
+          _source8 = _slicedToArray(_source7, 2),
+          _source8$ = _slicedToArray(_source8[0], 1),
+          _source8$$ = _source8$[0];
 
-      var _source8 = _slicedToArray(_source7, 2);
-
-      var _source8$ = _slicedToArray(_source8[0], 1);
-
-      var _source8$$ = _source8$[0];
       _source8$$ = _source8$$ === undefined ? {} : _source8$$;
-      const id = _source8$$.id;
-      const callback = _source8[1];
+      const id = _source8$$.id,
+            callback = _source8[1];
 
 
       (0, _validator.validate)({ id: id }, {
         id: [_validator.Assert.required(), _validator.Assert.string()]
       });
 
-      return this.onetouch.getAsync({
-        qs: {
-          api_key: this.key
-        },
-        uri: _urlEscapeTag2.default`approval_requests/${ id }`
-      }).bind(this).then(_responseParser2.default).tap(response => {
+      return this.onetouch.getAsync({ uri: _urlEscapeTag2.default`approval_requests/${id}` }).bind(this).then(_responseParser2.default).tap(response => {
         (0, _validator.assert)(response, {
           approval_request: {
             _app_name: [_validator.Assert.required(), _validator.Assert.string()],
@@ -314,7 +300,7 @@ class Client {
             created_at: [_validator.Assert.required(), _validator.Assert.date()],
             notified: [_validator.Assert.required(), _validator.Assert.boolean()],
             processed_at: _validator.Assert.callback(value => _validator.Assert.null().check(value) === true || _validator.Assert.date().check(value) === true),
-            status: [_validator.Assert.required(), _validator.Assert.choice(['approved', 'denied', 'pending'])],
+            status: [_validator.Assert.required(), _validator.Assert.choice(['approved', 'denied', 'expired', 'pending'])],
             updated_at: [_validator.Assert.required(), _validator.Assert.date()],
             user_id: [_validator.Assert.required(), _validator.Assert.string()],
             uuid: [_validator.Assert.required(), _validator.Assert.string()]
@@ -334,16 +320,14 @@ class Client {
     }
 
     return _bluebird2.default.try(() => {
-      var _source9 = source.apply(undefined, args);
+      var _source9 = source.apply(undefined, args),
+          _source10 = _slicedToArray(_source9, 2),
+          _source10$ = _slicedToArray(_source10[0], 1),
+          _source10$$ = _source10$[0];
 
-      var _source10 = _slicedToArray(_source9, 2);
-
-      var _source10$ = _slicedToArray(_source10[0], 1);
-
-      var _source10$$ = _source10$[0];
       _source10$$ = _source10$$ === undefined ? {} : _source10$$;
-      const ip = _source10$$.ip;
-      const callback = _source10[1];
+      const ip = _source10$$.ip,
+            callback = _source10[1];
 
 
       log.debug('Retrieving application statistics');
@@ -373,20 +357,18 @@ class Client {
     }
 
     return _bluebird2.default.try(() => {
-      var _source11 = source.apply(undefined, args);
+      var _source11 = source.apply(undefined, args),
+          _source12 = _slicedToArray(_source11, 2),
+          _source12$ = _slicedToArray(_source12[0], 2),
+          _source12$$ = _source12$[0];
 
-      var _source12 = _slicedToArray(_source11, 2);
-
-      var _source12$ = _slicedToArray(_source12[0], 2);
-
-      var _source12$$ = _source12$[0];
       _source12$$ = _source12$$ === undefined ? {} : _source12$$;
-      const countryOrCallingCode = _source12$$.countryCode;
-      const phone = _source12$$.phone;
+      const countryOrCallingCode = _source12$$.countryCode,
+            phone = _source12$$.phone;
       var _source12$$2 = _source12$[1];
       _source12$$2 = _source12$$2 === undefined ? {} : _source12$$2;
-      const ip = _source12$$2.ip;
-      const callback = _source12[1];
+      const ip = _source12$$2.ip,
+            callback = _source12[1];
 
 
       (0, _validator.validate)({ countryCode: countryOrCallingCode, ip: ip, phone: phone }, {
@@ -425,22 +407,20 @@ class Client {
     }
 
     return _bluebird2.default.try(() => {
-      var _source13 = source.apply(undefined, args);
+      var _source13 = source.apply(undefined, args),
+          _source14 = _slicedToArray(_source13, 2),
+          _source14$ = _slicedToArray(_source14[0], 2),
+          _source14$$ = _source14$[0];
 
-      var _source14 = _slicedToArray(_source13, 2);
-
-      var _source14$ = _slicedToArray(_source14[0], 2);
-
-      var _source14$$ = _source14$[0];
       _source14$$ = _source14$$ === undefined ? {} : _source14$$;
       const authyId = _source14$$.authyId;
       var _source14$$2 = _source14$[1];
       _source14$$2 = _source14$$2 === undefined ? {} : _source14$$2;
-      const ip = _source14$$2.ip;
-      const callback = _source14[1];
+      const ip = _source14$$2.ip,
+            callback = _source14[1];
 
 
-      log.debug({ authyId: authyId }, `Retrieving user ${ authyId } status`);
+      log.debug({ authyId: authyId }, `Retrieving user ${authyId} status`);
 
       (0, _validator.validate)({ authyId: authyId, ip: ip }, {
         authyId: [_validator.Assert.required(), _validator.Assert.authyId()],
@@ -448,10 +428,10 @@ class Client {
       });
 
       return this.rpc.getAsync({
-        form: _lodash2.default.pickBy({
+        body: _lodash2.default.pickBy({
           user_ip: ip
         }, _lodash2.default.identity),
-        uri: _urlEscapeTag2.default`users/${ authyId }/status`
+        uri: _urlEscapeTag2.default`users/${authyId}/status`
       }).bind(this).then(_responseParser2.default).tap(response => {
         (0, _validator.assert)(response, {
           message: [_validator.Assert.required(), _validator.Assert.equalTo('User status.')],
@@ -479,39 +459,37 @@ class Client {
     }
 
     return _bluebird2.default.try(() => {
-      var _source15 = source.apply(undefined, args);
+      var _source15 = source.apply(undefined, args),
+          _source16 = _slicedToArray(_source15, 2),
+          _source16$ = _slicedToArray(_source16[0], 2),
+          _source16$$ = _source16$[0];
 
-      var _source16 = _slicedToArray(_source15, 2);
-
-      var _source16$ = _slicedToArray(_source16[0], 2);
-
-      var _source16$$ = _source16$[0];
       _source16$$ = _source16$$ === undefined ? {} : _source16$$;
-      const authyId = _source16$$.authyId;
-      const data = _source16$$.data;
-      const type = _source16$$.type;
+      const authyId = _source16$$.authyId,
+            data = _source16$$.data,
+            type = _source16$$.type;
       var _source16$$2 = _source16$[1];
       _source16$$2 = _source16$$2 === undefined ? {} : _source16$$2;
-      const ip = _source16$$2.ip;
-      const callback = _source16[1];
+      const ip = _source16$$2.ip,
+            callback = _source16[1];
 
 
-      log.debug(`Registering activity for user ${ authyId }`);
+      log.debug(`Registering activity for user ${authyId}`);
 
       (0, _validator.validate)({ authyId: authyId, data: data, ip: ip, type: type }, {
         authyId: [_validator.Assert.required(), _validator.Assert.authyId()],
-        data: [_validator.Assert.required(), _validator.Assert.plainObject()],
-        ip: [_validator.Assert.required(), _validator.Assert.Ip()],
-        type: [_validator.Assert.required(), _validator.Assert.Activity()]
+        data: _validator.Assert.plainObject(),
+        ip: _validator.Assert.ip(),
+        type: [_validator.Assert.required(), _validator.Assert.activity()]
       });
 
       return this.rpc.postAsync({
-        form: {
+        body: {
           data: data,
           type: type,
           user_ip: ip
         },
-        uri: _urlEscapeTag2.default`users/${ authyId }/register_activity`
+        uri: _urlEscapeTag2.default`users/${authyId}/register_activity`
       }).bind(this).then(_responseParser2.default).tap(response => {
         (0, _validator.assert)(response, {
           message: [_validator.Assert.required(), _validator.Assert.equalTo('Activity was created.')]
@@ -532,25 +510,23 @@ class Client {
     }
 
     return _bluebird2.default.try(() => {
-      var _source17 = source.apply(undefined, args);
+      var _source17 = source.apply(undefined, args),
+          _source18 = _slicedToArray(_source17, 2),
+          _source18$ = _slicedToArray(_source18[0], 2),
+          _source18$$ = _source18$[0];
 
-      var _source18 = _slicedToArray(_source17, 2);
-
-      var _source18$ = _slicedToArray(_source18[0], 2);
-
-      var _source18$$ = _source18$[0];
       _source18$$ = _source18$$ === undefined ? {} : _source18$$;
       const authyId = _source18$$.authyId;
       var _source18$$2 = _source18$[1];
       _source18$$2 = _source18$$2 === undefined ? {} : _source18$$2;
-      const action = _source18$$2.action;
-      const message = _source18$$2.message;
+      const action = _source18$$2.action,
+            message = _source18$$2.message;
       var _source18$$2$force = _source18$$2.force;
-      const force = _source18$$2$force === undefined ? false : _source18$$2$force;
-      const callback = _source18[1];
+      const force = _source18$$2$force === undefined ? false : _source18$$2$force,
+            callback = _source18[1];
 
 
-      log.debug(`Requesting call for user ${ authyId }`);
+      log.debug(`Requesting call for user ${authyId}`);
 
       (0, _validator.validate)({ action: action, authyId: authyId, force: force, message: message }, {
         action: [_validator.Assert.string(), _validator.Assert.ofLength({ max: 255, min: 1 })],
@@ -565,7 +541,7 @@ class Client {
           action_message: message,
           force: force
         }),
-        uri: _urlEscapeTag2.default`call/${ authyId }`
+        uri: _urlEscapeTag2.default`call/${authyId}`
       }).bind(this).then(_responseParser2.default).tap(response => {
         (0, _validator.assert)(response, {
           cellphone: [_validator.Assert.required(), _validator.Assert.string()],
@@ -589,25 +565,23 @@ class Client {
     }
 
     return _bluebird2.default.try(() => {
-      var _source19 = source.apply(undefined, args);
+      var _source19 = source.apply(undefined, args),
+          _source20 = _slicedToArray(_source19, 2),
+          _source20$ = _slicedToArray(_source20[0], 2),
+          _source20$$ = _source20$[0];
 
-      var _source20 = _slicedToArray(_source19, 2);
-
-      var _source20$ = _slicedToArray(_source20[0], 2);
-
-      var _source20$$ = _source20$[0];
       _source20$$ = _source20$$ === undefined ? {} : _source20$$;
       const authyId = _source20$$.authyId;
       var _source20$$2 = _source20$[1];
       _source20$$2 = _source20$$2 === undefined ? {} : _source20$$2;
       const action = _source20$$2.action;
       var _source20$$2$force = _source20$$2.force;
-      const force = _source20$$2$force === undefined ? false : _source20$$2$force;
-      const message = _source20$$2.message;
-      const callback = _source20[1];
+      const force = _source20$$2$force === undefined ? false : _source20$$2$force,
+            message = _source20$$2.message,
+            callback = _source20[1];
 
 
-      log.debug(`Requesting sms for user ${ authyId }`);
+      log.debug(`Requesting sms for user ${authyId}`);
 
       (0, _validator.validate)({ action: action, authyId: authyId, force: force, message: message }, {
         action: [_validator.Assert.string(), _validator.Assert.ofLength({ max: 255, min: 1 })],
@@ -622,7 +596,7 @@ class Client {
           action_message: message,
           force: force
         }),
-        uri: _urlEscapeTag2.default`sms/${ authyId }`
+        uri: _urlEscapeTag2.default`sms/${authyId}`
       }).bind(this).then(_responseParser2.default).tap(response => {
         (0, _validator.assert)(response, {
           cellphone: [_validator.Assert.required(), _validator.Assert.string()],
@@ -645,21 +619,19 @@ class Client {
     }
 
     return _bluebird2.default.try(() => {
-      var _source21 = source.apply(undefined, args);
+      var _source21 = source.apply(undefined, args),
+          _source22 = _slicedToArray(_source21, 2),
+          _source22$ = _slicedToArray(_source22[0], 1),
+          _source22$$ = _source22$[0];
 
-      var _source22 = _slicedToArray(_source21, 2);
-
-      var _source22$ = _slicedToArray(_source22[0], 1);
-
-      var _source22$$ = _source22$[0];
       _source22$$ = _source22$$ === undefined ? {} : _source22$$;
-      const countryOrCallingCode = _source22$$.countryCode;
-      const email = _source22$$.email;
-      const phone = _source22$$.phone;
-      const callback = _source22[1];
+      const countryOrCallingCode = _source22$$.countryCode,
+            email = _source22$$.email,
+            phone = _source22$$.phone,
+            callback = _source22[1];
 
 
-      log.debug(`Registering user with email ${ email } and phone ${ phone } (${ countryOrCallingCode })`);
+      log.debug(`Registering user with email ${email} and phone ${phone} (${countryOrCallingCode})`);
 
       (0, _validator.validate)({ countryCode: countryOrCallingCode, email: email, phone: phone }, {
         countryCode: [_validator.Assert.required(), _validator.Assert.countryOrCallingCode()],
@@ -670,7 +642,7 @@ class Client {
       const parsed = (0, _phoneParser2.default)({ countryOrCallingCode: countryOrCallingCode, phone: phone });
 
       return this.rpc.postAsync({
-        form: {
+        body: {
           user: {
             cellphone: parsed.phone,
             country_code: parsed.countryCallingCode,
@@ -699,24 +671,22 @@ class Client {
     }
 
     return _bluebird2.default.try(() => {
-      var _source23 = source.apply(undefined, args);
+      var _source23 = source.apply(undefined, args),
+          _source24 = _slicedToArray(_source23, 2),
+          _source24$ = _slicedToArray(_source24[0], 2),
+          _source24$$ = _source24$[0];
 
-      var _source24 = _slicedToArray(_source23, 2);
-
-      var _source24$ = _slicedToArray(_source24[0], 2);
-
-      var _source24$$ = _source24$[0];
       _source24$$ = _source24$$ === undefined ? {} : _source24$$;
-      const authyId = _source24$$.authyId;
-      const token = _source24$$.token;
+      const authyId = _source24$$.authyId,
+            token = _source24$$.token;
       var _source24$$2 = _source24$[1];
       _source24$$2 = _source24$$2 === undefined ? {} : _source24$$2;
       var _source24$$2$force = _source24$$2.force;
-      const force = _source24$$2$force === undefined ? false : _source24$$2$force;
-      const callback = _source24[1];
+      const force = _source24$$2$force === undefined ? false : _source24$$2$force,
+            callback = _source24[1];
 
 
-      log.debug(`Verifying token ${ token } for user ${ authyId }`);
+      log.debug(`Verifying token ${token} for user ${authyId}`);
 
       (0, _validator.validate)({ authyId: authyId, force: force, token: token }, {
         authyId: [_validator.Assert.required(), _validator.Assert.authyId()],
@@ -728,7 +698,7 @@ class Client {
         qs: _lodash2.default.pickBy({
           force: force
         }),
-        uri: _urlEscapeTag2.default`verify/${ token }/${ authyId }`
+        uri: _urlEscapeTag2.default`verify/${token}/${authyId}`
       }).bind(this).then(_responseParser2.default).tap(response => {
         (0, _validator.assert)(response, {
           message: [_validator.Assert.required(), _validator.Assert.equalTo('Token is valid.')],
@@ -748,21 +718,19 @@ class Client {
     }
 
     return _bluebird2.default.try(() => {
-      var _source25 = source.apply(undefined, args);
+      var _source25 = source.apply(undefined, args),
+          _source26 = _slicedToArray(_source25, 2),
+          _source26$ = _slicedToArray(_source26[0], 2),
+          _source26$$ = _source26$[0];
 
-      var _source26 = _slicedToArray(_source25, 2);
-
-      var _source26$ = _slicedToArray(_source26[0], 2);
-
-      var _source26$$ = _source26$[0];
       _source26$$ = _source26$$ === undefined ? {} : _source26$$;
-      const countryOrCallingCode = _source26$$.countryCode;
-      const phone = _source26$$.phone;
-      const via = _source26$$.via;
+      const countryOrCallingCode = _source26$$.countryCode,
+            phone = _source26$$.phone,
+            via = _source26$$.via;
       var _source26$$2 = _source26$[1];
       _source26$$2 = _source26$$2 === undefined ? {} : _source26$$2;
-      const locale = _source26$$2.locale;
-      const callback = _source26[1];
+      const locale = _source26$$2.locale,
+            callback = _source26[1];
 
 
       (0, _validator.validate)({ countryCode: countryOrCallingCode, phone: phone, via: via }, {
@@ -775,7 +743,7 @@ class Client {
       const parsed = (0, _phoneParser2.default)({ countryOrCallingCode: countryOrCallingCode, phone: phone });
 
       return this.rpc.postAsync({
-        form: _lodash2.default.pickBy({
+        body: _lodash2.default.pickBy({
           country_code: parsed.countryCallingCode,
           locale: locale,
           phone_number: parsed.phone,
@@ -786,7 +754,7 @@ class Client {
         (0, _validator.assert)(response, {
           carrier: [_validator.Assert.required(), _validator.Assert.string()],
           is_cellphone: [_validator.Assert.required(), _validator.Assert.boolean()],
-          is_ported: [_validator.Assert.required(), _validator.Assert.boolean()],
+          is_ported: _validator.Assert.boolean(),
           message: [_validator.Assert.required(), _validator.Assert.string()]
         });
       }).asCallback(callback);
@@ -800,15 +768,13 @@ class Client {
    */
 
   verifyCallback() {
-    var _source27 = source.apply(undefined, arguments);
+    var _source27 = source.apply(undefined, arguments),
+        _source28 = _slicedToArray(_source27, 2),
+        _source28$ = _slicedToArray(_source28[0], 1),
+        _source28$$ = _source28$[0];
 
-    var _source28 = _slicedToArray(_source27, 2);
-
-    var _source28$ = _slicedToArray(_source28[0], 1);
-
-    var _source28$$ = _source28$[0];
-    const request = _source28$$ === undefined ? {} : _source28$$;
-    const callback = _source28[1];
+    const request = _source28$$ === undefined ? {} : _source28$$,
+          callback = _source28[1];
 
 
     return _bluebird2.default.try(() => {
@@ -847,18 +813,16 @@ class Client {
     }
 
     return _bluebird2.default.try(() => {
-      var _source29 = source.apply(undefined, args);
+      var _source29 = source.apply(undefined, args),
+          _source30 = _slicedToArray(_source29, 2),
+          _source30$ = _slicedToArray(_source30[0], 1),
+          _source30$$ = _source30$[0];
 
-      var _source30 = _slicedToArray(_source29, 2);
-
-      var _source30$ = _slicedToArray(_source30[0], 1);
-
-      var _source30$$ = _source30$[0];
       _source30$$ = _source30$$ === undefined ? {} : _source30$$;
-      const countryOrCallingCode = _source30$$.countryCode;
-      const phone = _source30$$.phone;
-      const token = _source30$$.token;
-      const callback = _source30[1];
+      const countryOrCallingCode = _source30$$.countryCode,
+            phone = _source30$$.phone,
+            token = _source30$$.token,
+            callback = _source30[1];
 
 
       (0, _validator.validate)({ countryCode: countryOrCallingCode, phone: phone, token: token }, {
