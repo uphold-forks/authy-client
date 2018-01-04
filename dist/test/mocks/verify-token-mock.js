@@ -22,7 +22,7 @@ function mock(_ref) {
   var _ref$response = _ref.response;
   let response = _ref$response === undefined ? {} : _ref$response;
 
-  return (0, _nock2.default)(/\.authy\.com/).filteringPath(path => path.replace(/verify\/.*?\//, 'verify/{token}/').replace(/\/[0-9].*/, '/{authyId}')).get('/protected/json/verify/{token}/{authyId}').query(request.query ? request.query : true).reply(response.code, response.body);
+  return (0, _nock2.default)(/\.authy\.com/).filteringPath(path => path.replace(/verify\/.*?\//, 'verify/{token}/').replace(/\/[0-9]+/, '/{authyId}')).get('/protected/json/verify/{token}/{authyId}').query(request.query ? request.query : true).reply(response.code, response.body);
 }
 
 /**

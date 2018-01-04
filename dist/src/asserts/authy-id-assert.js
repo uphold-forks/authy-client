@@ -42,3 +42,4 @@ function authyIdAssert() {
 
   return this;
 }
+module.exports = exports['default'];

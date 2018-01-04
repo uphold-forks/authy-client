@@ -1,5 +1,7 @@
 'use strict';
 
+var _validator = require('validator.js');
+
 var _totpTokenAssert = require('../../src/asserts/totp-token-assert');
 
 var _totpTokenAssert2 = _interopRequireDefault(_totpTokenAssert);
@@ -7,8 +9,6 @@ var _totpTokenAssert2 = _interopRequireDefault(_totpTokenAssert);
 var _should = require('should');
 
 var _should2 = _interopRequireDefault(_should);
-
-var _validator = require('validator.js');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 

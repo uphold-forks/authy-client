@@ -7,13 +7,13 @@ exports.default = phoneAssert;
 
 var _googleLibphonenumber = require('google-libphonenumber');
 
-var _debugnyan = require('debugnyan');
-
-var _debugnyan2 = _interopRequireDefault(_debugnyan);
+var _validator = require('validator.js');
 
 var _lodash = require('lodash');
 
-var _validator = require('validator.js');
+var _debugnyan = require('debugnyan');
+
+var _debugnyan2 = _interopRequireDefault(_debugnyan);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -59,7 +59,7 @@ function phoneAssert(countryOrCallingCode) {
     }
 
     let phone = value;
-    let countryCode = this.countryOrCallingCode;
+    let countryCode = this.countryOrCallingCode; // eslint-disable-line prefer-destructuring
     let countriesWithSameCallingCode = [];
 
     try {
@@ -122,3 +122,4 @@ function phoneAssert(countryOrCallingCode) {
 
   return this;
 }
+module.exports = exports['default'];

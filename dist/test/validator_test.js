@@ -2,13 +2,13 @@
 
 var _validator = require('validator.js');
 
-var _should = require('should');
-
-var _should2 = _interopRequireDefault(_should);
-
 var _errors = require('../src/errors');
 
 var _validator2 = require('../src/validator');
+
+var _should = require('should');
+
+var _should2 = _interopRequireDefault(_should);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 

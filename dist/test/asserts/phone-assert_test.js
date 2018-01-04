@@ -1,5 +1,9 @@
 'use strict';
 
+var _validator = require('validator.js');
+
+var _googleLibphonenumber = require('google-libphonenumber');
+
 var _phoneAssert = require('../../src/asserts/phone-assert');
 
 var _phoneAssert2 = _interopRequireDefault(_phoneAssert);
@@ -7,10 +11,6 @@ var _phoneAssert2 = _interopRequireDefault(_phoneAssert);
 var _should = require('should');
 
 var _should2 = _interopRequireDefault(_should);
-
-var _validator = require('validator.js');
-
-var _googleLibphonenumber = require('google-libphonenumber');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 

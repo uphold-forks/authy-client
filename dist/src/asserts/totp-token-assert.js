@@ -56,3 +56,4 @@ function totpTokenAssert() {
 
   return this;
 }
+module.exports = exports['default'];

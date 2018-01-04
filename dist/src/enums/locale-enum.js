@@ -39,3 +39,4 @@ exports.default = {
   TURKISH: 'tr',
   VIETNAMESE: 'vi'
 };
+module.exports = exports['default'];

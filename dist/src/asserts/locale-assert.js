@@ -5,11 +5,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = localeAssert;
 
-var _enums = require('../enums');
-
 var _validator = require('validator.js');
 
 var _lodash = require('lodash');
+
+var _enums = require('../enums');
 
 /**
  * Locale choices.
@@ -46,3 +46,4 @@ function localeAssert() {
 
   return this;
 }
+module.exports = exports['default'];

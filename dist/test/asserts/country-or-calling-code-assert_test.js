@@ -1,5 +1,7 @@
 'use strict';
 
+var _validator = require('validator.js');
+
 var _countryOrCallingCodeAssert = require('../../src/asserts/country-or-calling-code-assert');
 
 var _countryOrCallingCodeAssert2 = _interopRequireDefault(_countryOrCallingCodeAssert);
@@ -7,8 +9,6 @@ var _countryOrCallingCodeAssert2 = _interopRequireDefault(_countryOrCallingCodeA
 var _should = require('should');
 
 var _should2 = _interopRequireDefault(_should);
-
-var _validator = require('validator.js');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 

@@ -21,7 +21,7 @@ function mock(_ref) {
   var _ref$response = _ref.response;
   let response = _ref$response === undefined ? {} : _ref$response;
 
-  return (0, _nock2.default)(/\.authy\.com/).filteringPath(path => path.replace(/\/[0-9].*\//, '/{authyId}/')).get('/protected/json/users/{authyId}/status', request.body).query(request.query ? request.query : true).reply(response.code, response.body);
+  return (0, _nock2.default)(/\.authy\.com/).filteringPath(path => path.replace(/\/[0-9]+\//, '/{authyId}/')).get('/protected/json/users/{authyId}/status', request.body).query(request.query ? request.query : true).reply(response.code, response.body);
 }
 
 /**

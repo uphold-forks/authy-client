@@ -4,6 +4,10 @@ var _mocks = require('./mocks');
 
 var mocks = _interopRequireWildcard(_mocks);
 
+var _errors = require('../src/errors');
+
+var _enums = require('../src/enums');
+
 var _client = require('../src/client');
 
 var _client2 = _interopRequireDefault(_client);
@@ -15,10 +19,6 @@ var _nock2 = _interopRequireDefault(_nock);
 var _should = require('should');
 
 var _should2 = _interopRequireDefault(_should);
-
-var _errors = require('../src/errors');
-
-var _enums = require('../src/enums');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -112,7 +112,7 @@ describe('Client', () => {
     it('should set default user-agent', () => {
       const testClient = new _client2.default({ key: 'foo' });
 
-      testClient.defaults.headers['User-Agent'].should.match(/authy-client\/\d+\.\d+\.\d+\s\(https:\/\/github.com\/seegno\/authy-client\)/);
+      testClient.defaults.headers['User-Agent'].should.match(/authy-client\/\d+\.\d+\.\d+\s\(https:\/\/github.com\/ruimarinho\/authy-client\)/);
     });
   });
 
@@ -1808,34 +1808,6 @@ describe('Client', () => {
       } catch (e) {
         e.should.be.instanceOf(_errors.ValidationFailedError);
         e.errors.ip[0].show().assert.should.equal('Ip');
-      }
-    }));
-
-    it('should throw an error if `response` is missing required fields', _asyncToGenerator(function* () {
-      (0, _nock2.default)(/authy/).post(/\//).reply(200, { success: true });
-
-      try {
-        yield client.deleteUser({ authyId: 1635 });
-
-        _should2.default.fail();
-      } catch (e) {
-        e.should.be.instanceOf(_errors.AssertionFailedError);
-
-        e.errors.message.show().assert.should.equal('HaveProperty');
-      }
-    }));
-
-    it('should throw an error if `response` contains invalid fields', _asyncToGenerator(function* () {
-      (0, _nock2.default)(/authy/).post(/\//).reply(200, { message: 'foo', success: true });
-
-      try {
-        yield client.deleteUser({ authyId: 1635 });
-
-        _should2.default.fail();
-      } catch (e) {
-        e.should.be.instanceOf(_errors.AssertionFailedError);
-
-        e.errors.message[0].show().assert.should.equal('EqualTo');
       }
     }));
 

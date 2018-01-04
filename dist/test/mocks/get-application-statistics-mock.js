@@ -5,11 +5,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.succeed = succeed;
 
+var _lodash = require('lodash');
+
 var _nock = require('nock');
 
 var _nock2 = _interopRequireDefault(_nock);
-
-var _lodash = require('lodash');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 

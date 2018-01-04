@@ -33,3 +33,4 @@ class AssertionFailedError extends _httpError2.default {
   }
 }
 exports.default = AssertionFailedError;
+module.exports = exports['default'];

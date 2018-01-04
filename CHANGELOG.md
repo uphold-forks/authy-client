@@ -1,5 +1,17 @@
 # Changelog
 
+## [v1.1.0](https://github.com/ruimarinho/authy-client/tree/v1.1.0) (2018-01-04)
+[Full Changelog](https://github.com/ruimarinho/authy-client/compare/v1.0.10...v1.1.0)
+
+**Merged pull requests:**
+
+- Update dependencies [\#45](https://github.com/ruimarinho/authy-client/pull/45) ([ruimarinho](https://github.com/ruimarinho))
+- Update ownership [\#44](https://github.com/ruimarinho/authy-client/pull/44) ([ruimarinho](https://github.com/ruimarinho))
+- Update google-libphonenumber@3.0.10 [\#43](https://github.com/ruimarinho/authy-client/pull/43) ([ruimarinho](https://github.com/ruimarinho))
+- Improve .npmignore whitelist [\#41](https://github.com/ruimarinho/authy-client/pull/41) ([ruimarinho](https://github.com/ruimarinho))
+- Remove deleteUser assert [\#40](https://github.com/ruimarinho/authy-client/pull/40) ([holm](https://github.com/holm))
+- Add command-line interface [\#31](https://github.com/ruimarinho/authy-client/pull/31) ([ruimarinho](https://github.com/ruimarinho))
+
 ## [v1.0.10](https://github.com/ruimarinho/authy-client/tree/v1.0.10) (2017-01-30)
 [Full Changelog](https://github.com/ruimarinho/authy-client/compare/v1.0.9...v1.0.10)
 

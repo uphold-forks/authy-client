@@ -51,6 +51,7 @@ function signatureAssert() {
       return true;
     }
 
+    // eslint-disable-next-line prefer-destructuring
     var _request = this.request;
     const body = _request.body;
     var _request$headers = _request.headers;
@@ -80,3 +81,4 @@ function signatureAssert() {
 
   return this;
 }
+module.exports = exports['default'];

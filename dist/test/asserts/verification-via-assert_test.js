@@ -1,5 +1,11 @@
 'use strict';
 
+var _validator = require('validator.js');
+
+var _lodash = require('lodash');
+
+var _enums = require('../../src/enums');
+
 var _verificationViaAssert = require('../../src/asserts/verification-via-assert');
 
 var _verificationViaAssert2 = _interopRequireDefault(_verificationViaAssert);
@@ -7,12 +13,6 @@ var _verificationViaAssert2 = _interopRequireDefault(_verificationViaAssert);
 var _should = require('should');
 
 var _should2 = _interopRequireDefault(_should);
-
-var _lodash = require('lodash');
-
-var _enums = require('../../src/enums');
-
-var _validator = require('validator.js');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 

@@ -14,3 +14,4 @@ exports.default = {
   LOW: 'low',
   MEDIUM: 'med'
 };
+module.exports = exports['default'];

@@ -1,5 +1,7 @@
 'use strict';
 
+var _validator = require('validator.js');
+
 var _signatureAssert = require('../../src/asserts/signature-assert');
 
 var _signatureAssert2 = _interopRequireDefault(_signatureAssert);
@@ -7,8 +9,6 @@ var _signatureAssert2 = _interopRequireDefault(_signatureAssert);
 var _should = require('should');
 
 var _should2 = _interopRequireDefault(_should);
-
-var _validator = require('validator.js');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 

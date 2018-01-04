@@ -5,9 +5,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = activityAssert;
 
-var _enums = require('../enums');
-
 var _validator = require('validator.js');
+
+var _enums = require('../enums');
 
 var _lodash = require('lodash');
 
@@ -46,3 +46,4 @@ function activityAssert() {
 
   return this;
 }
+module.exports = exports['default'];

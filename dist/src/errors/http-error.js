@@ -4,11 +4,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _lodash = require('lodash');
+
 var _standardError = require('./standard-error');
 
 var _standardError2 = _interopRequireDefault(_standardError);
-
-var _lodash = require('lodash');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -30,3 +30,4 @@ class HttpError extends _standardError2.default {
   }
 }
 exports.default = HttpError;
+module.exports = exports['default'];

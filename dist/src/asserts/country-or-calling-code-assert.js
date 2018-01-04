@@ -9,11 +9,11 @@ var _googleLibphonenumber = require('google-libphonenumber');
 
 var _validator = require('validator.js');
 
+var _lodash = require('lodash');
+
 var _debugnyan = require('debugnyan');
 
 var _debugnyan2 = _interopRequireDefault(_debugnyan);
-
-var _lodash = require('lodash');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -66,3 +66,4 @@ function countryOrCallingCodeAssert() {
 
   return this;
 }
+module.exports = exports['default'];

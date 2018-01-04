@@ -13,11 +13,11 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
 
 exports.default = parse;
 
+var _googleLibphonenumber = require('google-libphonenumber');
+
 var _debugnyan = require('debugnyan');
 
 var _debugnyan2 = _interopRequireDefault(_debugnyan);
-
-var _googleLibphonenumber = require('google-libphonenumber');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -128,3 +128,4 @@ function parse() {
 
   return result;
 }
+module.exports = exports['default'];

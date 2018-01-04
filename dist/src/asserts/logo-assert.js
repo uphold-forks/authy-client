@@ -9,11 +9,11 @@ var _validator = require('validator.js-asserts');
 
 var asserts = _interopRequireWildcard(_validator);
 
-var _enums = require('../enums');
-
 var _validator2 = require('validator.js');
 
 var _lodash = require('lodash');
+
+var _enums = require('../enums');
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
@@ -56,3 +56,4 @@ function logoAssert() {
 
   return this;
 }
+module.exports = exports['default'];

@@ -13,3 +13,4 @@ exports.default = {
   DENIED: 'denied',
   PENDING: 'pending'
 };
+module.exports = exports['default'];

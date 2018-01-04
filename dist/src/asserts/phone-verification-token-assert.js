@@ -5,9 +5,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = phoneVerificationTokenAssert;
 
-var _lodash = require('lodash');
-
 var _validator = require('validator.js');
+
+var _lodash = require('lodash');
 
 /**
  * Instances.
@@ -56,3 +56,4 @@ function phoneVerificationTokenAssert() {
 
   return this;
 }
+module.exports = exports['default'];

@@ -1,5 +1,7 @@
 'use strict';
 
+var _validator = require('validator.js');
+
 var _phoneVerificationTokenAssert = require('../../src/asserts/phone-verification-token-assert');
 
 var _phoneVerificationTokenAssert2 = _interopRequireDefault(_phoneVerificationTokenAssert);
@@ -7,8 +9,6 @@ var _phoneVerificationTokenAssert2 = _interopRequireDefault(_phoneVerificationTo
 var _should = require('should');
 
 var _should2 = _interopRequireDefault(_should);
-
-var _validator = require('validator.js');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 

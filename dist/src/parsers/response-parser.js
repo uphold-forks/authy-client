@@ -11,11 +11,11 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
 
 exports.default = parse;
 
+var _lodash = require('lodash');
+
 var _httpError = require('../errors/http-error');
 
 var _httpError2 = _interopRequireDefault(_httpError);
-
-var _lodash = require('lodash');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -41,3 +41,4 @@ function parse(_ref) {
 
   return body;
 }
+module.exports = exports['default'];

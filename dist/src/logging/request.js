@@ -4,6 +4,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _requestObfuscator = require('./request-obfuscator');
+
 var _debugnyan = require('debugnyan');
 
 var _debugnyan2 = _interopRequireDefault(_debugnyan);
@@ -11,8 +13,6 @@ var _debugnyan2 = _interopRequireDefault(_debugnyan);
 var _requestLogger = require('@uphold/request-logger');
 
 var _requestLogger2 = _interopRequireDefault(_requestLogger);
-
-var _requestObfuscator = require('./request-obfuscator');
 
 var _request = require('request');
 
@@ -45,3 +45,4 @@ exports.default = (0, _requestLogger2.default)(_request2.default, request => {
 
   log.debug({ request: request }, `Making request ${request.id} to ${request.method} ${request.uri}`);
 });
+module.exports = exports['default'];

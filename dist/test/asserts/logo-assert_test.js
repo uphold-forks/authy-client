@@ -1,18 +1,18 @@
 'use strict';
 
+var _validator = require('validator.js');
+
+var _enums = require('../../src/enums');
+
+var _lodash = require('lodash');
+
 var _logoAssert = require('../../src/asserts/logo-assert');
 
 var _logoAssert2 = _interopRequireDefault(_logoAssert);
 
-var _enums = require('../../src/enums');
-
 var _should = require('should');
 
 var _should2 = _interopRequireDefault(_should);
-
-var _lodash = require('lodash');
-
-var _validator = require('validator.js');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 

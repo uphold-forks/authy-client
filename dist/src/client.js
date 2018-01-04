@@ -9,6 +9,8 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
  * Module dependencies.
  */
 
+var _validator = require('./validator');
+
 var _bluebird = require('bluebird');
 
 var _bluebird2 = _interopRequireDefault(_bluebird);
@@ -40,8 +42,6 @@ var _responseParser2 = _interopRequireDefault(_responseParser);
 var _request = require('./logging/request');
 
 var _request2 = _interopRequireDefault(_request);
-
-var _validator = require('./validator');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -213,11 +213,7 @@ class Client {
           user_ip: ip
         }, _lodash2.default.identity),
         uri: _urlEscapeTag2.default`users/${authyId}/delete`
-      }).bind(this).then(_responseParser2.default).tap(response => {
-        (0, _validator.assert)(response, {
-          message: [_validator.Assert.required(), _validator.Assert.equalTo('User was added to remove.')]
-        });
-      }).asCallback(callback);
+      }).bind(this).then(_responseParser2.default).asCallback(callback);
     });
   }
 
@@ -849,3 +845,4 @@ class Client {
   }
 }
 exports.default = Client;
+module.exports = exports['default'];
