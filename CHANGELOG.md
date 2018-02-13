@@ -1,5 +1,12 @@
 # Changelog
 
+## [v1.1.1](https://github.com/ruimarinho/authy-client/tree/v1.1.1) (2018-02-13)
+[Full Changelog](https://github.com/ruimarinho/authy-client/compare/v1.1.0...v1.1.1)
+
+**Merged pull requests:**
+
+- Loosen host check [\#47](https://github.com/ruimarinho/authy-client/pull/47) ([ruimarinho](https://github.com/ruimarinho))
+
 ## [v1.1.0](https://github.com/ruimarinho/authy-client/tree/v1.1.0) (2018-01-04)
 [Full Changelog](https://github.com/ruimarinho/authy-client/compare/v1.0.10...v1.1.0)
 

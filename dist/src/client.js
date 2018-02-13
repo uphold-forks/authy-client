@@ -90,7 +90,7 @@ class Client {
     let timeout = _ref2$timeout === undefined ? 5000 : _ref2$timeout;
 
     (0, _validator.validate)({ host: host, key: key, timeout: timeout }, {
-      host: [_validator.Assert.string(), _validator.Assert.choice(['https://api.authy.com', 'https://sandbox-api.authy.com'])],
+      host: _validator.Assert.string(),
       key: [_validator.Assert.required(), _validator.Assert.notBlank()],
       timeout: [_validator.Assert.integer(), _validator.Assert.greaterThanOrEqual(0)]
     });
