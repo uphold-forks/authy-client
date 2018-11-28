@@ -1,5 +1,13 @@
 # Changelog
 
+## [v1.1.2](https://github.com/ruimarinho/authy-client/tree/v1.1.2) (2018-11-28)
+[Full Changelog](https://github.com/ruimarinho/authy-client/compare/v1.1.1...v1.1.2)
+
+**Merged pull requests:**
+
+- Update google-libphonenumber@3.2.1 [\#53](https://github.com/ruimarinho/authy-client/pull/53) ([afsampaio](https://github.com/afsampaio))
+- Add fail verify token mock [\#49](https://github.com/ruimarinho/authy-client/pull/49) ([rplopes](https://github.com/rplopes))
+
 ## [v1.1.1](https://github.com/ruimarinho/authy-client/tree/v1.1.1) (2018-02-13)
 [Full Changelog](https://github.com/ruimarinho/authy-client/compare/v1.1.0...v1.1.1)
 

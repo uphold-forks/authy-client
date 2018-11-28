@@ -3,6 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.fail = fail;
 exports.succeed = succeed;
 exports.succeedWithForce = succeedWithForce;
 
@@ -26,17 +27,40 @@ function mock(_ref) {
 }
 
 /**
- * Export a request that will `succeed`.
+ * Export a request that will `fail`.
  */
 
 /**
  * Module dependencies.
  */
 
-function succeed() {
+function fail() {
   var _ref2 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
   let request = _ref2.request;
+
+  return mock({
+    request: request,
+    response: {
+      body: {
+        errors: {
+          token: 'is invalid'
+        },
+        success: false
+      },
+      code: 401
+    }
+  });
+}
+
+/**
+ * Export a request that will `succeed`.
+ */
+
+function succeed() {
+  var _ref3 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+  let request = _ref3.request;
 
   return mock({
     request: request,
